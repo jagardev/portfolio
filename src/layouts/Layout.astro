@@ -1,0 +1,212 @@
+---
+// src/layouts/Layout.astro
+import "../styles/global.css";
+import Spotlights from "../components/Spotlights.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+// Nav items
+const navLinks = [
+  { name: "HOME", url: "#home", active: true },
+  { name: "ABOUT", url: "#about", active: false },
+  { name: "TECH", url: "#tech", active: false },
+  { name: "PROJECTS", url: "#projects", active: false },
+  { name: "EDUCATION", url: "#education", active: false },
+  { name: "CAREER", url: "#career", active: false },
+  { name: "CONTACT", url: "#contact", active: false },
+];
+---
+
+<!-- Scroll attributes to position correctly when clicking link menus or scrolling -->
+<html lang="en" class="scroll-smooth scroll-pt-24 xl:scroll-pt-32">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="selection:bg-white/20 selection:text-white bg-black min-h-screen relative overflow-x-hidden"
+  >
+    <!-- Render the custom spotlights here -->
+    <Spotlights />
+
+    <!-- Mobile nav toggle: checkbox trick -->
+    <input type="checkbox" id="nav-toggle" class="fixed opacity-0 w-px h-px pointer-events-none peer" />
+
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 flex items-center px-5 lg:px-12
+             h-14 lg:h-16
+             bg-black/60 backdrop-blur-md border-b border-white/25
+             pointer-events-none"
+    >
+      <!-- Logo -->
+      <a
+        href="#"
+        class="relative z-10 text-3xl md:text-2xl text-gray-200 hover:text-white transition-colors tracking-widest -mt-2 pointer-events-auto"
+        style="font-family: 'Permanent Marker', cursive;"
+      >
+        JAGARDEV
+      </a>
+
+      <!-- Hamburger button (mobile) -->
+      <label
+        for="nav-toggle"
+        class="xl:hidden ml-auto pointer-events-auto cursor-pointer text-gray-400 hover:text-white transition-colors"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </label>
+
+      <!-- Center bar -->
+      <!-- Perfect mathematical centering using: absolute left-1/2 -translate-x-1/2 -->
+      <div
+        class="pointer-events-auto hidden xl:flex items-center gap-8 xl:gap-16 absolute left-1/2 -translate-x-1/2 w-max"
+      >
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.url}
+              class="nav-link desktop-link text-[20px] font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 text-gray-500 hover:text-gray-200"
+            >
+              {link.name}
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+
+    <!-- Overlay fullscreen (mobile) -->
+    <div
+      class="xl:hidden fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm
+             flex flex-col items-center justify-center gap-10
+             opacity-0 pointer-events-none
+             peer-checked:opacity-100 peer-checked:pointer-events-auto
+             transition-opacity duration-300"
+    >
+      <!-- X button to close menu-->
+      <label
+        for="nav-toggle"
+        class="absolute top-5 right-5 cursor-pointer text-gray-400 hover:text-white transition-colors"
+      >
+        <svg
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </label>
+
+      <!-- Logo inside overlay -->
+      <a
+        href="#"
+        class="absolute top-4 left-5 text-2xl text-gray-200 tracking-widest"
+        style="font-family: 'Permanent Marker', cursive;"
+      >
+        JAGARDEV
+      </a>
+
+      <!-- Links -->
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.url}
+            class="nav-link mobile-link text-2xl font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 cursor-pointer text-gray-400 hover:text-white"
+          >
+            {link.name}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Main wrapper -->
+    <main
+      class="relative z-10 max-w-7xl mx-auto px-5 md:px-12 pt-20 xl:pt-52 pb-16 xl:pb-20 flex flex-col gap-16 xl:gap-32"
+    >
+      <slot />
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Target all sections with an ID and all navigation links
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const navToggle = document.getElementById('nav-toggle') as HTMLInputElement;
+
+        // --- NEW: Close mobile menu on click ---
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (navToggle) navToggle.checked = false;
+          });
+        });
+
+        // --- Observer configuration ---
+        // Trigger when the section crosses the middle of the screen
+        const observerOptions = {
+          root: null,
+          rootMargin: '-20% 0px -50% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const currentId = entry.target.getAttribute('id');
+
+              navLinks.forEach(link => {
+                // Remove active state (white text)
+                link.classList.remove('text-white');
+                
+                // Restore default inactive colors depending on whether it's mobile or desktop
+                if (link.classList.contains('desktop-link')) {
+                  link.classList.add('text-gray-500');
+                } else if (link.classList.contains('mobile-link')) {
+                  link.classList.add('text-gray-400');
+                }
+
+                // If the link's href matches the current visible section, apply active state
+                if (link.getAttribute('href') === `#${currentId}`) {
+                  link.classList.add('text-white');
+                  link.classList.remove('text-gray-500', 'text-gray-400');
+                }
+              });
+            }
+          });
+        }, observerOptions);
+
+        // Start observing all sections
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+      });
+    </script>
+    
+  </body>
+</html>

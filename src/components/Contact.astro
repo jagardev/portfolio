@@ -1,0 +1,249 @@
+---
+// src/components/Contact.astro
+
+// Contact details
+const personalInfo = {
+  email: "jagardev.contact@gmail.com",
+  phone: "+34 603 627 964",
+  location: "Málaga, ES",
+  availability: "Available for remote and hybrid opportunities."
+};
+---
+
+<section id="contact" class="w-full">
+  <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 max-w-7xl mx-auto w-full px-4 md:px-0">
+    
+    <!-- LEFT COLUMN: Headers & Info -->
+    <div class="flex-1 flex flex-col justify-between">
+      
+      {/* Headings */}
+      <div class="flex flex-col gap-2 mb-16 lg:mb-0">
+        <h2 class="text-5xl md:text-7xl font-sans font-light text-gray-100 tracking-tight">
+          Get in touch.
+        </h2>
+        {/* Adjusted the second line to use your cursive signature font */}
+        <p class="font-script text-gray-400 text-5xl md:text-6xl mt-2 pr-4">
+          Happy to hear from you.
+        </p>
+      </div>
+
+      {/* Contact Details Grid */}
+      <div class="flex flex-col gap-8">
+        
+        {/* Email Block */}
+        <div class="flex flex-col gap-2">
+          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Email</span>
+          {/* mailto: protocol automatically opens the default email client */}
+          <a 
+            href={`mailto:${personalInfo.email}`} 
+            class="font-sans text-lg text-gray-200 hover:text-white transition-colors w-max"
+          >
+            {personalInfo.email}
+          </a>
+        </div>
+
+        {/* Phone Block */}
+        <div class="flex flex-col gap-2">
+          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Phone</span>
+          <span class="font-sans text-lg text-gray-200">
+            {personalInfo.phone}
+          </span>
+        </div>
+
+        {/* Location Block */}
+        <div class="flex flex-col gap-2">
+          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Location</span>
+          <span class="font-sans text-lg text-gray-200">
+            {personalInfo.location}
+          </span>
+        </div>
+
+        {/* Availability Block */}
+        <div class="flex flex-col gap-2">
+          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Availability</span>
+          <span class="font-sans text-lg text-gray-200">
+            {personalInfo.availability}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Contact Form -->
+    <div class="flex-1 lg:mt-4">
+      
+      {/* 
+        FORM ACTION: Pointed to Web3Forms API. 
+      */}
+      <form 
+        id="contact-form"
+        action="https://api.web3forms.com/submit" 
+        method="POST" 
+        class="flex flex-col gap-12"
+      >
+        
+        {/* WEB3FORMS HIDDEN INPUTS */}
+        <!-- 1. Pega aquí tu Access Key -->
+        <input type="hidden" name="access_key" value="e6eb670a-0f74-49c8-b57f-3d544176e704">
+        
+        <!-- 2. Asunto del correo que recibirás -->
+        <input type="hidden" name="subject" value="Portfolio Contact">
+        
+        <!-- 3. Para que no detecte tu web como Spam -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+        {/* Name & Email Row */}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8">
+          
+          {/* Name Input */}
+          <div class="flex flex-col gap-3 group">
+            <label for="name" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+              Name
+            </label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              required 
+              class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors rounded-none"
+            />
+          </div>
+
+          {/* Email Input */}
+          <div class="flex flex-col gap-3 group">
+            <label for="email" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+              Email
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required 
+              class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors rounded-none"
+            />
+          </div>
+          
+        </div>
+
+        {/* Message Textarea */}
+        <div class="flex flex-col gap-3 group">
+          <label for="message" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+            Message
+          </label>
+          <textarea 
+            id="message" 
+            name="message" 
+            rows="4" 
+            required 
+            class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors resize-none rounded-none"
+          ></textarea>
+        </div>
+
+        {/* Submit Row */}
+        <div class="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-6 mt-4">
+          
+          <span class="font-mono text-[10px] md:text-[11px] text-gray-500 uppercase tracking-widest">
+            I'll reply as soon as I can.
+          </span>
+          
+          <button 
+            type="submit" 
+            class="px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-mono text-[13px] uppercase tracking-widest border border-white/10 hover:border-white/30 rounded-lg transition-all duration-300 flex items-center gap-3 group w-full md:w-auto justify-center"
+          >
+            Send 
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Custom Toast Notification (Hidden by default) -->
+  <div 
+    id="toast-notification" 
+    class="fixed bottom-8 right-8 z-[100] flex items-center gap-3 bg-[#080808] border border-white/10 shadow-2xl px-5 py-4 rounded-xl translate-y-[150%] opacity-0 transition-all duration-500 ease-out"
+  >
+    <!-- Success Checkmark Icon -->
+    <div class="w-8 h-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center shrink-0">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+    <div class="flex flex-col">
+      <span class="font-sans text-sm text-gray-100 font-medium">Message sent</span>
+      <span class="font-mono text-xs text-gray-500 tracking-wider">I'll get back to you soon.</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const toast = document.getElementById('toast-notification');
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalBtnText = submitBtn.innerHTML;
+
+    form.addEventListener('submit', async (e) => {
+      // Prevent the default page redirect
+      e.preventDefault();
+
+      // Change button state to show it's working
+      submitBtn.innerHTML = `
+        Sending...
+        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      `;
+      submitBtn.disabled = true;
+
+      // Gather form data
+      const formData = new FormData(form);
+      
+      try {
+        // Send data to Web3Forms using Fetch API
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Success! Reset form and show toast
+          form.reset();
+          showToast();
+        } else {
+          console.error('Form submission failed');
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+        alert('Network error. Please check your connection.');
+      } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Function to slide the toast in and out
+    function showToast() {
+      if (!toast) return;
+      
+      // Slide in
+      toast.classList.remove('translate-y-[150%]', 'opacity-0');
+      
+      // Wait 4 seconds, then slide out
+      setTimeout(() => {
+        toast.classList.add('translate-y-[150%]', 'opacity-0');
+      }, 4000);
+    }
+  });
+</script>

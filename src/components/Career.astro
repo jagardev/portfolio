@@ -1,0 +1,98 @@
+---
+// src/components/Career.astro
+
+// Array with career data. 
+const careerItems = [
+  {
+    year: "01/2024 - 03/2026",
+    title: "Independence Compliance & Operations Specialist",
+    institution: "PricewaterhouseCoopers Service Delivery Center (Málaga) SL | 2 years 2 months",
+    description: "Company compliance and independence management for the multinational big four company PwC."
+  },
+  {
+    year: "05/2022 - 12/2022",
+    title: "Banking Dispute Resolution Specialist",
+    institution: "OPPLUS SL - Malaga | 8 months",
+    description: "Customer service and resolution of disputes in the banking sector."
+  },
+  {
+    year: "07/2021 - 12/2021",
+    title: "Photovoltaic Sales Operations Administrator",
+    institution: "Instalaciones Smart Spain SL - Palencia | 6 months",
+    description: "Coordination of contracts, public relationships, and sales processes."
+  },
+  {
+    year: "01/2021 - 07/2021",
+    title: "Energy Sales Backoffice Administrator",
+    institution: "Oregon Comercial SL - Palencia | 7 months",
+    description: "Management and optimization of sales and customer relations processes."
+  }
+];
+---
+
+<section id="career" class="w-full">
+  
+  <div class="flex flex-col gap-12 max-w-7xl mx-auto w-full px-4 md:px-0">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col gap-2">
+      <h2 class="text-5xl md:text-7xl font-sans font-light text-gray-100 tracking-tight flex flex-wrap items-center gap-3">
+        <!-- SVG Icon for Career (Briefcase) -->
+        <svg class="w-8 h-8 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>  
+        Career <span class="font-script text-gray-400 lowercase text-6xl md:text-8xl align-middle pr-4">trajectory</span>
+      </h2>
+      <p class="font-mono text-gray-500 text-[18px] uppercase tracking-widest mt-2">This is just the beginning</p>
+    </div>
+
+    <!-- Timeline Container -->
+    <!-- ml-2 md:ml-4 shifts the line slightly right so it's not hugging the very edge of the screen on mobile -->
+    <div class="relative ml-2 md:ml-10 mt-6">
+      
+      <!-- The vertical line -->
+      <!-- absolute top-0 bottom-0 creates a line that automatically stretches to the height of the items -->
+      <div class="absolute left-[7px] top-2 bottom-2 w-px bg-white/20"></div>
+
+      <!-- Mapping through the items -->
+      <div class="flex flex-col gap-10">
+        {careerItems.map((item) => (
+          // group class allows us to style the dot and text simultaneously when hovering over the card
+          <div class="relative pl-10 md:pl-12 group">
+            
+            {/* The Dot */}
+            {/* 
+                left-0 positions it exactly on the vertical line.
+                group-hover changes the colors when the user interacts with the entry.
+            */}
+            <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[#050505] border-2 border-gray-600 group-hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] group-hover:bg-white transition-all duration-300 z-10"></div>
+            
+            {/* Content */}
+            <div class="flex flex-col gap-1.5 cursor-default">
+              {/* Year Label */}
+              <span class="font-mono text-[13px] font-semibold text-gray-100/90 uppercase tracking-widest bg-gray-400/10 border border-gray-100/50 px-2 py-0.5 rounded-full w-max">
+                {item.year}
+              </span>
+              
+              {/* Title & Institution */}
+              <h3 class="font-sans text-2xl md:text-3xl text-gray-200 font-medium mt-1 group-hover:text-white transition-colors duration-300">
+                {item.title}
+              </h3>
+              <h4 class="font-sans text-[16px] md:text-[18px] text-gray-400 italic">
+                {item.institution}
+              </h4>
+              
+              {/* Description */}
+              <p class="font-mono text-gray-350 md:text-[18px] text-[18px] leading-relaxed mt-2 max-w-2xl group-hover:text-gray-200 transition-colors duration-300">
+                {item.description}
+              </p>
+            </div>
+            
+          </div>
+        ))}
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,78 @@
+---
+// src/components/Typewriter.astro
+
+interface Props {
+  words: string[];
+  class?: string;
+}
+
+// We receive an array of words/phrases and an optional class for text styling
+const { words, class: className = "" } = Astro.props;
+---
+
+<!-- 
+  We use a custom HTML tag (type-writer) to isolate the script.
+  We pass the words array as a data attribute (data-words) in JSON format.
+-->
+<type-writer
+  data-words={JSON.stringify(words)}
+  class="inline-flex items-center"
+>
+  <span class={`typed-text ${className}`}></span>
+  <!-- The blinking cursor -->
+  <span
+    class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]"
+  ></span>
+</type-writer>
+
+<script>
+  // Define the behavior of the Custom Element
+  class TypeWriter extends HTMLElement {
+    connectedCallback() {
+      // Read the words passed from Astro
+      const words = JSON.parse(this.dataset.words || "[]");
+      const textElement = this.querySelector(".typed-text");
+
+      if (!words.length || !textElement) return;
+
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      const type = () => {
+        const currentWord = words[wordIndex];
+        // Speeds: 40ms for typing, 20ms for deleting
+        const speed = isDeleting ? 20 : 40;
+
+        if (isDeleting) {
+          textElement.textContent = currentWord.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          textElement.textContent = currentWord.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        // Pause and state change logic
+        if (!isDeleting && charIndex === currentWord.length) {
+          // Long pause after finishing typing the phrase
+          isDeleting = true;
+          setTimeout(type, 2000);
+        } else if (isDeleting && charIndex === 1) {
+          // Switch to the next word and take a short pause before starting
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(type, 500);
+        } else {
+          // Continue typing/deleting
+          setTimeout(type, speed);
+        }
+      };
+
+      // Start the cycle
+      type();
+    }
+  }
+
+  // Register the component in the browser
+  customElements.define("type-writer", TypeWriter);
+</script>

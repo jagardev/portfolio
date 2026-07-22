@@ -1,0 +1,94 @@
+---
+// src/components/Spotlights.astro
+// Spotlight effects
+// Uses radial gradients instead of blur filters to avoid pixelation.
+// All critical styles are inlined to avoid Tailwind v4 layer conflicts.
+---
+
+<div
+  style="pointer-events:none;z-index:1;width:100%;height:100%;position:fixed;top:0;left:0;overflow:hidden;"
+>
+  <!-- Left spotlight group -->
+  <div
+    class="sl-group-left"
+    style="z-index:40;pointer-events:none;width:100vw;height:100vh;position:absolute;top:0;left:0;"
+  >
+    <div
+      style="position:absolute;top:0;left:0;width:560px;height:1380px;transform:translateY(-350px) rotate(-45deg);background:radial-gradient(68.54% 68.72% at 55.02% 31.46%, rgba(255,255,255,0.078) 0%, rgba(255,255,255,0.039) 50%, rgba(255,255,255,0) 80%);"
+    >
+    </div>
+    <div
+      style="position:absolute;top:0;left:0;width:240px;height:1380px;transform:rotate(-45deg) translate(5%,-50%);transform-origin:0 0;background:radial-gradient(50% 50%, rgba(255,255,255,0.059) 0%, rgba(255,255,255,0.02) 80%, rgba(0,0,0,0) 100%);"
+    >
+    </div>
+    <div
+      style="position:absolute;top:0;left:0;width:240px;height:1380px;transform:rotate(-45deg) translate(-180%,-70%);transform-origin:0 0;background:radial-gradient(50% 50%, rgba(255,255,255,0.039) 0%, rgba(255,255,255,0.016) 80%, rgba(0,0,0,0) 100%);"
+    >
+    </div>
+  </div>
+
+  <!-- Right spotlight group -->
+  <div
+    class="sl-group-right"
+    style="z-index:40;pointer-events:none;width:100vw;height:100vh;position:absolute;top:0;right:0;"
+  >
+    <div
+      style="position:absolute;top:0;right:0;width:560px;height:1380px;transform:translateY(-350px) rotate(45deg);background:radial-gradient(68.54% 68.72% at 55.02% 31.46%, rgba(255,255,255,0.078) 0%, rgba(255,255,255,0.039) 50%, rgba(255,255,255,0) 80%);"
+    >
+    </div>
+    <div
+      style="position:absolute;top:0;right:0;width:240px;height:1380px;transform:rotate(45deg) translate(-5%,-50%);transform-origin:100% 0;background:radial-gradient(50% 50%, rgba(255,255,255,0.059) 0%, rgba(255,255,255,0.02) 80%, rgba(0,0,0,0) 100%);"
+    >
+    </div>
+    <div
+      style="position:absolute;top:0;right:0;width:240px;height:1380px;transform:rotate(45deg) translate(180%,-70%);transform-origin:100% 0;background:radial-gradient(50% 50%, rgba(255,255,255,0.039) 0%, rgba(255,255,255,0.016) 80%, rgba(0,0,0,0) 100%);"
+    >
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* Sway animations - only classes needed are for keyframe animations */
+  .sl-group-left {
+    animation: 7s ease-in-out infinite alternate sl-move-left;
+  }
+
+  .sl-group-right {
+    animation: 7s ease-in-out infinite alternate sl-move-right;
+  }
+
+  @keyframes sl-move-left {
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    50% {
+      transform: translateX(100px);
+    }
+  }
+
+  @keyframes sl-move-right {
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    50% {
+      transform: translateX(-100px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sl-group-left,
+    .sl-group-right {
+      animation: none;
+    }
+  }
+
+  /* Responsive: shrink beams on mobile */
+  @media (max-width: 768px) {
+    .sl-group-left > div,
+    .sl-group-right > div {
+      transform: scale(0.7);
+    }
+  }
+</style>
