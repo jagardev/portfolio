@@ -1,29 +1,35 @@
 ---
 // src/components/Contact.astro
+import Divider from "./Divider.astro";
 
 // Contact details
 const personalInfo = {
   email: "jagardev.contact@gmail.com",
   phone: "+34 603 627 964",
-  location: "Málaga, ES",
+  location: "Málaga - Spain",
   availability: "Available for remote and hybrid opportunities."
 };
 ---
 
 <section id="contact" class="w-full">
-  <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 max-w-7xl mx-auto w-full px-4 md:px-0">
+  <Divider class="mb-16 xl:mb-24" />
+  <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 max-w-7xl mx-auto w-full px-4 md:px-0 reveal">
     
     <!-- LEFT COLUMN: Headers & Info -->
     <div class="flex-1 flex flex-col justify-between">
       
       {/* Headings */}
       <div class="flex flex-col gap-2 mb-16 lg:mb-0">
-        <h2 class="text-5xl md:text-7xl font-sans font-light text-gray-100 tracking-tight">
-          Get in touch.
+        <h2 class="text-5xl md:text-7xl font-sans font-light text-gray-100 tracking-tight flex flex-wrap items-center gap-3">
+          <!-- SVG Icon for Contact (Speech Bubble) -->
+          <svg class="w-10 h-10 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+          Let's talk
         </h2>
         {/* Adjusted the second line to use your cursive signature font */}
-        <p class="font-script text-gray-400 text-5xl md:text-6xl mt-2 pr-4">
-          Happy to hear from you.
+        <p class="font-script text-gray-400 text-5xl md:text-6xl mt-2 pr-4 mb-10">
+          about what we can build
         </p>
       </div>
 
@@ -32,7 +38,7 @@ const personalInfo = {
         
         {/* Email Block */}
         <div class="flex flex-col gap-2">
-          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Email</span>
+          <span class="font-mono text-[16px] text-gray-500 uppercase tracking-widest">Email</span>
           {/* mailto: protocol automatically opens the default email client */}
           <a 
             href={`mailto:${personalInfo.email}`} 
@@ -44,7 +50,7 @@ const personalInfo = {
 
         {/* Phone Block */}
         <div class="flex flex-col gap-2">
-          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Phone</span>
+          <span class="font-mono text-[16px] text-gray-500 uppercase tracking-widest">Phone</span>
           <span class="font-sans text-lg text-gray-200">
             {personalInfo.phone}
           </span>
@@ -52,7 +58,7 @@ const personalInfo = {
 
         {/* Location Block */}
         <div class="flex flex-col gap-2">
-          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Location</span>
+          <span class="font-mono text-[16px] text-gray-500 uppercase tracking-widest">Location</span>
           <span class="font-sans text-lg text-gray-200">
             {personalInfo.location}
           </span>
@@ -60,7 +66,7 @@ const personalInfo = {
 
         {/* Availability Block */}
         <div class="flex flex-col gap-2">
-          <span class="font-mono text-[11px] text-gray-500 uppercase tracking-widest">Availability</span>
+          <span class="font-mono text-[16px] text-gray-500 uppercase tracking-widest">Availability</span>
           <span class="font-sans text-lg text-gray-200">
             {personalInfo.availability}
           </span>
@@ -82,22 +88,25 @@ const personalInfo = {
         class="flex flex-col gap-12"
       >
         
-        {/* WEB3FORMS HIDDEN INPUTS */}
-        <!-- 1. Pega aquí tu Access Key -->
-        <input type="hidden" name="access_key" value="e6eb670a-0f74-49c8-b57f-3d544176e704">
+    <!-- WEB3FORMS HIDDEN INPUTS -->
+        <!-- Access Key -->
+        <input type="hidden" name="access_key" value="266790d7-77aa-45d5-964c-1030fbc05029">
         
-        <!-- 2. Asunto del correo que recibirás -->
-        <input type="hidden" name="subject" value="Portfolio Contact">
+        <!-- Email Subject -->
+        <input type="hidden" name="subject" value="Nuevo mensaje desde mi Portfolio">
         
-        <!-- 3. Para que no detecte tu web como Spam -->
+        <!-- Anti-spam botcheck -->
         <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+        <!-- Sets a custom visual subject or formatting for the incoming lead -->
+        <input type="hidden" name="from_name" value="Portfolio Message">
 
         {/* Name & Email Row */}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8">
           
           {/* Name Input */}
           <div class="flex flex-col gap-3 group">
-            <label for="name" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+            <label for="name" class="font-mono text-[16px] text-gray-450 uppercase tracking-widest group-focus-within:text-gray-200 transition-colors">
               Name
             </label>
             <input 
@@ -105,13 +114,13 @@ const personalInfo = {
               id="name" 
               name="name" 
               required 
-              class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors rounded-none"
+              class="w-full bg-transparent border-b border-white/40 pb-2 text-gray-200 font-sans focus:outline-none focus:border-white/80 transition-colors rounded-none"
             />
           </div>
 
           {/* Email Input */}
           <div class="flex flex-col gap-3 group">
-            <label for="email" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+            <label for="email" class="font-mono text-[16px] text-gray-450 uppercase tracking-widest group-focus-within:text-gray-200 transition-colors">
               Email
             </label>
             <input 
@@ -119,7 +128,7 @@ const personalInfo = {
               id="email" 
               name="email" 
               required 
-              class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors rounded-none"
+              class="w-full bg-transparent border-b border-white/40 pb-2 text-gray-200 font-sans focus:outline-none focus:border-white/80 transition-colors rounded-none"
             />
           </div>
           
@@ -127,7 +136,7 @@ const personalInfo = {
 
         {/* Message Textarea */}
         <div class="flex flex-col gap-3 group">
-          <label for="message" class="font-mono text-[11px] text-gray-500 uppercase tracking-widest group-focus-within:text-[#4fa4ff] transition-colors">
+          <label for="message" class="font-mono text-[16px] text-gray-450 uppercase tracking-widest group-focus-within:text-gray-200 transition-colors">
             Message
           </label>
           <textarea 
@@ -135,15 +144,15 @@ const personalInfo = {
             name="message" 
             rows="4" 
             required 
-            class="w-full bg-transparent border-b border-white/20 pb-2 text-gray-200 font-sans focus:outline-none focus:border-[#4fa4ff] transition-colors resize-none rounded-none"
+            class="w-full bg-transparent border-b border-white/40 pb-2 text-gray-200 font-sans focus:outline-none focus:border-white/80 transition-colors resize-none rounded-none"
           ></textarea>
         </div>
 
         {/* Submit Row */}
         <div class="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-6 mt-4">
           
-          <span class="font-mono text-[10px] md:text-[11px] text-gray-500 uppercase tracking-widest">
-            I'll reply as soon as I can.
+          <span class="font-mono text-[15px] md:text-[14px] text-gray-500 uppercase tracking-widest">
+            I'll reply in the blink of an eye
           </span>
           
           <button 
@@ -186,11 +195,23 @@ const personalInfo = {
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const toast = document.getElementById('toast-notification');
     const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
     const originalBtnText = submitBtn.innerHTML;
+
+    // --- Email Regex Pattern ---
+    // Checks for standard email structure: name@domain.ext
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     form.addEventListener('submit', async (e) => {
       // Prevent the default page redirect
       e.preventDefault();
+
+      // --- Custom Email Validation Logic ---
+      if (!emailRegex.test(emailInput.value.trim())) {
+        alert('Please enter a valid email address (e.g., name@domain.com).');
+        emailInput.focus();
+        return; // Stop the form submission early
+      }
 
       // Change button state to show it's working
       submitBtn.innerHTML = `
@@ -204,6 +225,9 @@ const personalInfo = {
 
       // Gather form data
       const formData = new FormData(form);
+
+      // Dynamically assign the entered email address to the replyto field
+      formData.set('replyto', emailInput.value.trim());
       
       try {
         // Send data to Web3Forms using Fetch API

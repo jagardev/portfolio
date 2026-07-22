@@ -1,8 +1,15 @@
 ---
 // src/components/Career.astro
+import Divider from "./Divider.astro";
 
 // Array with career data. 
 const careerItems = [
+  {
+    year: "03/2026 - 07/2026",
+    title: "Software Developer Internship",
+    institution: "Data Control SL | 4 months",
+    description: "Data manipulation using DataFlex and SQL. Building and maintaining databases, dashboards and moodle platforms."
+  },
   {
     year: "01/2024 - 03/2026",
     title: "Independence Compliance & Operations Specialist",
@@ -31,14 +38,15 @@ const careerItems = [
 ---
 
 <section id="career" class="w-full">
+  <Divider class="mb-16 xl:mb-24" />
   
-  <div class="flex flex-col gap-12 max-w-7xl mx-auto w-full px-4 md:px-0">
+  <div class="flex flex-col gap-12 max-w-7xl mx-auto w-full px-4 md:px-0 reveal">
     
     <!-- Section Header -->
     <div class="flex flex-col gap-2">
       <h2 class="text-5xl md:text-7xl font-sans font-light text-gray-100 tracking-tight flex flex-wrap items-center gap-3">
         <!-- SVG Icon for Career (Briefcase) -->
-        <svg class="w-8 h-8 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-10 h-10 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
         </svg>  
         Career <span class="font-script text-gray-400 lowercase text-6xl md:text-8xl align-middle pr-4">trajectory</span>

@@ -1,8 +1,13 @@
 ---
 // src/components/Divider.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
 ---
 
 <div
-  class="w-[60%] mx-auto h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+  class={`w-[60%] mx-auto h-px bg-gradient-to-r from-transparent via-white/20 to-transparent ${className}`}
 >
 </div>

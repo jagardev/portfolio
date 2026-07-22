@@ -22,7 +22,7 @@ const navLinks = [
 ---
 
 <!-- Scroll attributes to position correctly when clicking link menus or scrolling -->
-<html lang="en" class="scroll-smooth scroll-pt-24 xl:scroll-pt-32">
+<html lang="en" class="scroll-smooth scroll-pt-14 lg:scroll-pt-16">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -208,5 +208,42 @@ const navLinks = [
       });
     </script>
     
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.15 // Activation at 15% visibility of the next element
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              // Not repetition when scrolling back up
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        // Selects all elements with the class 'reveal'
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+      });
+    </script>
   </body>
 </html>
+
+<style is:global>
+  /* Scroll animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.5s cubic-bezier(0.5, 0, 0, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

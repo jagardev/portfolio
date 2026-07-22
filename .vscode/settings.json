@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "*.astro": "astro"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "emmet.includeLanguages": {
+    "astro": "html"
+  },
+  "tailwindCSS.includeLanguages": {
+    "astro": "html"
+  },
+  "tailwindCSS.experimental.configFile": "src/styles/global.css",
+  "tailwindCSS.classAttributes": ["class", "class:list"]
+}
