@@ -1,43 +1,103 @@
-# Astro Starter Kit: Minimal
+# JAGARDEV — Developer Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A high-performance, modern developer portfolio built with **Astro 5** and **Tailwind CSS v4**. Designed with focus on clean architecture, smooth 60fps animations, optimized asset delivery, and responsive UI/UX.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+## ⚡ Tech Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Framework**: [Astro 5](https://astro.build/) (Static Site Generation / Zero JavaScript runtime overhead)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Icons & Graphics**: Custom SVG illustrations & WebP optimized media
+- **Typography**: Google Fonts (*Space Grotesk*, *JetBrains Mono*, *Caveat*, *Permanent Marker*)
+- **Deployment & Tooling**: Node.js (>= 22.12.0), Vite
+
+---
+
+## ✨ Features & Engineering Highlights
+
+- 🏎️ **Ultra-Fast Performance**: Built on Astro's HTML-first architecture with minimal JS output.
+- 🖼️ **Hardware-Accelerated Carousel**: Custom dual-element crossfade system using `HTMLImageElement.decode()` pre-warming and IntersectionObservers for stutter-free image transitions.
+- 🎯 **Smart Navbar Observer**: Smooth section-tracking scroll listener to detect active sections without layout thrashing.
+- ✍️ **Dynamic Typewriter Effect**: Custom component for animated text switching.
+- 🎨 **Sleek Dark Aesthetics**: Glassmorphism, ambient spotlight glows, and interactive hover feedback.
+- 📱 **Fully Responsive**: Mobile-first fluid design tailored for screen sizes from smartphones to ultrawide displays.
+
+---
+
+## 📁 Project Structure
 
 ```text
-/
-├── public/
+d:\Portfolio Projects\jagardev-portfolio\
+├── public/                # Static media assets (WebP images, favicons)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/        # Reusable UI components
+│   │   ├── About.astro        # Personal story & optimized carousel
+│   │   ├── Career.astro       # Professional experience timeline
+│   │   ├── Contact.astro      # Contact form & social links
+│   │   ├── CustomCursor.astro # Interactive custom cursor
+│   │   ├── Education.astro    # Academic background
+│   │   ├── Hero.astro         # Main landing hero with typewriter
+│   │   ├── Projects.astro     # Showcase of featured projects
+│   │   ├── Spotlights.astro   # Ambient background lighting
+│   │   ├── Tech.astro         # Tech stack & skills overview
+│   │   └── Typewriter.astro   # Custom text animation component
+│   ├── layouts/
+│   │   └── Layout.astro       # Global layout, HTML shell & nav scroll logic
+│   ├── pages/
+│   │   └── index.astro        # Main entry page
+│   └── styles/
+│       └── global.css         # Tailwind v4 configuration & base styles
+├── package.json           # Scripts & project dependencies
+└── astro.config.mjs       # Astro configuration
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🚀 Getting Started
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Prerequisites
 
-## 🧞 Commands
+Make sure you have **Node.js** installed (v22.12.0 or higher recommended):
 
-All commands are run from the root of the project, from a terminal:
+```bash
+node -v
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Installation
 
-## 👀 Want to learn more?
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/jagardev/portfolio.git
+   cd portfolio
+   ```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the local development server**:
+   ```bash
+   npm run dev
+   ```
+   Open your browser and navigate to `http://localhost:4321`
+
+---
+
+## 🧞 Available Scripts
+
+| Command | Action |
+| :--- | :--- |
+| `npm run dev` | Launches local development server at `http://localhost:4321` |
+| `npm run build` | Builds the production static bundle into `./dist/` |
+| `npm run preview` | Previews the production build locally prior to deployment |
+| `npm run astro` | Runs Astro CLI commands (`astro check`, `astro add`, etc.) |
+
+---
+
+## 📬 Contact & Connect
+
+- **Portfolio**: [JAGARDEV](https://github.com/jagardev/portfolio)
+- **LinkedIn**: [Jairo García Antolín](https://linkedin.com/in/jagardev)
+- **GitHub**: [@jagardev](https://github.com/jagardev)
