@@ -1,39 +1,54 @@
 ---
 // src/components/About.astro
 import Divider from "./Divider.astro";
+import Typewriter from "./Typewriter.astro";
+
+// Add your real photo paths here when you have them
+const carouselImages = [
+  "/Cadiz1.webp",
+  "Manchester.webp",
+  "Sit.webp",
+  "Cadiz2.webp",
+  "ELSESL3.webp",
+  "ELSESL2.webp",
+  "ELSESL1.webp",
+];
 ---
 
-<section id="about">
+<section id="about" class="w-full">
   <Divider class="mb-16 xl:mb-24" />
-  <div
-    class="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20 reveal"
-  >
+
+  <div class="max-w-7xl mx-auto w-full px-4 md:px-0">
+    <!-- === SECTION 1: WHAT I DO === -->
     <div
-      class="w-[280px] md:w-[320px] lg:w-[380px] mx-auto md:mx-0 shrink-0 relative group"
+      class="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20 reveal"
     >
+      <!-- Left: Profile Image -->
       <div
-        class="absolute -inset-4 bg-gradient-to-r from-white/15 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition duration-700 pointer-events-none"
+        class="w-[280px] md:w-[320px] lg:w-[380px] mx-auto md:mx-0 shrink-0 relative group"
       >
+        <div
+          class="absolute -inset-4 bg-gradient-to-r from-white/15 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition duration-700 pointer-events-none"
+        >
+        </div>
+
+        <img
+          src="/jairo_profile.webp"
+          alt="Jairo García Antolín"
+          class="w-full aspect-square object-cover rounded-full relative z-10 transition-transform duration-700 ease-in-out group-hover:scale-[1.04] group-hover:rotate-2"
+        />
       </div>
 
-      <img
-        src="/jairo_profile.png"
-        alt="Jairo García Antolín"
-        class="w-full aspect-square object-cover rounded-full relative z-10 transition-transform duration-700 ease-in-out group-hover:scale-[1.04] group-hover:rotate-2"
-      />
-    </div>
-
-    <div class="flex-1 flex flex-col gap-6">
-      <h2
-        class="text-6xl md:text-8xl font-script font-light text-gray-100 tracking-tight"
-      >
-        What i <span
-          class="text-6xl md:text-8xl font-script font-light text-gray-400 tracking-tight"
-          >do</span
+      <!-- Right: Text Content -->
+      <div class="flex-1 flex flex-col gap-6">
+        <h2
+          class="text-6xl md:text-8xl font-script font-light text-gray-100 tracking-tight"
         >
+          What i <span class="text-gray-400">do</span>
+        </h2>
 
         <div
-          class="font-mono text-gray-400 md:text-[20px] text-[18px] leading-relaxed space-y-5 max-w-2xl mt-8"
+          class="font-mono text-gray-400 md:text-[20px] text-[18px] leading-relaxed space-y-5 max-w-2xl mt-4"
         >
           <p>
             Software developer based in Málaga-Spain, specializing in building
@@ -43,14 +58,317 @@ import Divider from "./Divider.astro";
             I'm currently working towards expanding my technical horizon into <span
               class="text-gray-200"
             >
-              Data Engineering, Artificial Intelligence & Backend solutions.</span
-            >
-            <br /><br />I am passionate about creating systems that not only
-            function flawlessly but also process, validate, and leverage data
-            intelligently.
+              Data Engineering, Artificial Intelligence & Backend solutions.
+            </span>
+            <br /><br />
+            I am passionate about creating systems that not only function flawlessly
+            but also process, validate, and leverage data intelligently.
           </p>
         </div>
-      </h2>
+      </div>
+    </div>
+
+    <!-- Spacer between sections -->
+    <div class="h-16 md:h-24 w-full"></div>
+
+    <!-- === SECTION 2: WHO AM I (Carousel Section) === -->
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 items-center reveal"
+    >
+      <!-- Left: Text Content -->
+      <div class="flex flex-col gap-8 order-2 lg:order-1">
+        <h2 class="flex flex-wrap items-center gap-3">
+          <span
+            class="font-script text-gray-100 text-6xl md:text-8xl tracking-tight mr-4"
+            >Who am
+          </span>
+          <span
+            class="font-script font-light text-gray-400 text-6xl md:text-8xl lowercase mt-2 md:mt-4"
+            >i</span
+          >
+        </h2>
+
+        <div
+          class="flex flex-col gap-6 font-mono text-[18px] md:text-[19px] text-gray-400 leading-relaxed w-full lg:pr-6"
+        >
+          <p>
+            I'm just a guy who loves <span class="text-gray-200"
+              >technology, videogames and discovering things.
+            </span>
+          </p>
+          <p>
+            I'm addicted to the feeling of <span class="text-gray-200"
+              >learning</span
+            > new things:
+            <Typewriter
+              class="font-mono italic text-gray-300 text-[18px] md:text-[19px] align-middle lowercase ml-1"
+              showCursor={false}
+              words={[
+                " cities",
+                " lenguages",
+                " technologies",
+                " videogames",
+                " music",
+                " movies",
+                " cultures",
+              ]}
+            />
+          </p>
+          <p>
+            I'm certain that's how we keep on growing and rediscovering
+            ourselves.
+          </p>
+          <p>
+            My favourite childhood game was Elsword, a side scrolling 2.5D
+            action game where i <span class="text-gray-200">competed</span> against
+            many other skilled players around the world.
+            <span class="text-gray-200">
+              I won the biggest European tournament of Elsword's history back in
+              2016,</span
+            > i traveled to Cologne (Germany) where i would be crowned as the European
+            champion at the Gamescom after a well-heated long competition.
+          </p>
+          <p>
+            I believe that the same kind of <span class="text-gray-200"
+              >discipline</span
+            > i have to win that trophy is also required to <span
+              class="text-gray-200"
+              >optimize, build and come up with solutions</span
+            > that can actually help people and improve systems.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Image Carousel -->
+      <div class="flex justify-center lg:justify-end order-1 lg:order-2">
+        <div
+          class="relative w-80 h-80 md:w-[400px] md:h-[400px] lg:w-[480px] lg:h-[480px] rounded-full p-2 border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.05)] group shrink-0"
+        >
+          <!-- Inner wrapper: overflow-hidden + rounded-full handles circular clipping.
+               translateZ(0) promotes to GPU compositor layer. -->
+          <div
+            class="relative w-full h-full rounded-full overflow-hidden bg-[#050505] [transform:translateZ(0)]"
+          >
+            <!-- Only 2 <img> elements are rendered instead of 7.
+                 This drastically reduces compositing cost since only the active
+                 and transitioning image need GPU layers. The JS swaps src on navigate. -->
+            <img
+              id="carousel-current"
+              src={carouselImages[0]}
+              alt="Personal insight 1"
+              class="absolute inset-0 w-full h-full object-cover z-10"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+            <!-- Second image used only during crossfade transitions -->
+            <img
+              id="carousel-next"
+              src=""
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+              loading="eager"
+              decoding="async"
+              aria-hidden="true"
+            />
+
+            <div
+              class="absolute inset-0 bg-gradient-to-tr from-[#050505]/40 to-transparent z-20 pointer-events-none"
+            >
+            </div>
+          </div>
+
+          <!-- Carousel Controls: Transparent, glowing arrows -->
+          <!-- Carousel controls: replaced drop-shadow CSS filters with text-shadow
+               (filters force paint on every compositor frame; text-shadow does not) -->
+          <button
+            id="prev-slide"
+            class="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 z-30 p-4 text-white/80 hover:text-white hover:scale-110 transition-[color,transform] duration-300 cursor-pointer"
+            style="filter: none;"
+            aria-label="Previous image"
+          >
+            <svg
+              class="w-10 h-10 md:w-12 md:h-12"
+              style="filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M15 19l-7-7 7-7"></path></svg
+            >
+          </button>
+
+          <button
+            id="next-slide"
+            class="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 z-30 p-4 text-white/80 hover:text-white hover:scale-110 transition-[color,transform] duration-300 cursor-pointer"
+            style="filter: none;"
+            aria-label="Next image"
+          >
+            <svg
+              class="w-10 h-10 md:w-12 md:h-12"
+              style="filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M9 5l7 7-7 7"></path></svg
+            >
+          </button>
+
+          <!-- Decorative orbital elements -->
+          <div
+            class="absolute -inset-4 border border-white/5 rounded-full pointer-events-none group-hover:rotate-180 transition-transform duration-[3000ms] ease-out"
+          >
+          </div>
+          <div
+            class="absolute -inset-2 border border-dashed border-white/20 rounded-full pointer-events-none group-hover:-rotate-90 transition-transform duration-[2000ms] ease-out"
+          >
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // ========== IMAGE SOURCE LIST ==========
+    const imageSources: string[] = [
+      "/Cadiz1.webp",
+      "Manchester.webp",
+      "Sit.webp",
+      "Cadiz2.webp",
+      "ELSESL3.webp",
+      "ELSESL2.webp",
+      "ELSESL1.webp",
+    ];
+
+    const currentImg = document.getElementById(
+      "carousel-current",
+    ) as HTMLImageElement;
+    const nextImg = document.getElementById(
+      "carousel-next",
+    ) as HTMLImageElement;
+    const prevBtn = document.getElementById("prev-slide");
+    const nextBtn = document.getElementById("next-slide");
+    const aboutSection = document.getElementById("about");
+
+    if (!currentImg || !nextImg || !prevBtn || !nextBtn || !aboutSection)
+      return;
+
+    let currentIndex = 0;
+    let isTransitioning = false;
+
+    // ========== PRE-WARM: Decode all images ahead of time ==========
+    // A warm-up observer fires 600px before the section enters the viewport.
+    // It eagerly decodes every carousel image so the browser has pixel data
+    // ready in its cache. This eliminates the decode-on-first-paint stutter.
+    const decodedCache = new Map<string, HTMLImageElement>();
+
+    const preWarmImages = () => {
+      imageSources.forEach((src) => {
+        if (decodedCache.has(src)) return;
+        const img = new Image();
+        img.src = src;
+        // decode() returns a promise that resolves once the image
+        // is fully decoded into GPU-ready pixel data
+        img
+          .decode()
+          .then(() => {
+            decodedCache.set(src, img);
+          })
+          .catch(() => {
+            // Decode failed (broken image, etc.) — ignore silently
+          });
+      });
+    };
+
+    // Fire the pre-warm 600px before the section scrolls into view
+    const warmupObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            preWarmImages();
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "600px 0px 600px 0px", threshold: 0 },
+    );
+    warmupObserver.observe(aboutSection);
+
+    // Also start pre-warming during idle time if the browser supports it
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(() => preWarmImages(), {
+        timeout: 3000,
+      });
+    }
+
+    // ========== CAROUSEL NAVIGATION ==========
+    // Uses a 2-element crossfade: swap the "next" image src, fade it in,
+    // then once the transition ends, move it to "current" and reset.
+    const navigateTo = (newIndex: number) => {
+      if (isTransitioning || newIndex === currentIndex) return;
+      isTransitioning = true;
+
+      // Prepare the next image behind the current one
+      nextImg.src = imageSources[newIndex];
+      nextImg.alt = `Personal insight ${newIndex + 1}`;
+
+      // Start the crossfade once the DOM element has decoded the new src.
+      // NOTE: we always call decode() even if the file was pre-warmed, because
+      // pre-warming caches the file data in the browser but the <img> element
+      // still needs to decode its own new src into a renderable bitmap.
+      const startCrossfade = () => {
+        // Force a reflow so the browser commits the current state
+        // (opacity:0, transition:none) before we apply the new state.
+        // Without this, the browser may batch both changes into the same
+        // style recalculation and skip the animation entirely.
+        void nextImg.offsetHeight;
+
+        // Now set the transition FIRST, then change opacity
+        nextImg.style.transition = "opacity 150ms ease-in-out";
+        nextImg.style.opacity = "1";
+        nextImg.style.zIndex = "10";
+
+        // After the crossfade completes, swap current ← next and reset
+        const onTransitionEnd = () => {
+          nextImg.removeEventListener("transitionend", onTransitionEnd);
+
+          // Move the new image into the "current" slot (no visual change)
+          currentImg.src = imageSources[newIndex];
+          currentImg.alt = `Personal insight ${newIndex + 1}`;
+
+          // Reset the next image for the following transition
+          nextImg.style.transition = "none";
+          nextImg.style.opacity = "0";
+          nextImg.style.zIndex = "0";
+
+          currentIndex = newIndex;
+          isTransitioning = false;
+        };
+
+        nextImg.addEventListener("transitionend", onTransitionEnd);
+      };
+
+      // Always decode through the DOM element before fading in
+      nextImg.decode().then(startCrossfade).catch(startCrossfade);
+    };
+
+    nextBtn.addEventListener("click", () => {
+      navigateTo((currentIndex + 1) % imageSources.length);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      navigateTo(
+        (currentIndex - 1 + imageSources.length) % imageSources.length,
+      );
+    });
+  });
+</script>

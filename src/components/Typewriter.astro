@@ -4,10 +4,11 @@
 interface Props {
   words: string[];
   class?: string;
+  showCursor?: boolean;
 }
 
 // We receive an array of words/phrases and an optional class for text styling
-const { words, class: className = "" } = Astro.props;
+const { words, class: className = "", showCursor = true } = Astro.props;
 ---
 
 <!-- 
@@ -19,10 +20,11 @@ const { words, class: className = "" } = Astro.props;
   class="inline-flex items-center"
 >
   <span class={`typed-text ${className}`}></span>
-  <!-- The blinking cursor -->
-  <span
-    class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]"
-  ></span>
+  {showCursor && (
+    <span
+      class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]"
+    ></span>
+  )}
 </type-writer>
 
 <script>
@@ -56,7 +58,7 @@ const { words, class: className = "" } = Astro.props;
         if (!isDeleting && charIndex === currentWord.length) {
           // Long pause after finishing typing the phrase
           isDeleting = true;
-          setTimeout(type, 2000);
+          setTimeout(type, 1000);
         } else if (isDeleting && charIndex === 1) {
           // Switch to the next word and take a short pause before starting
           isDeleting = false;
