@@ -22,13 +22,11 @@ const navLinks = [
 ];
 ---
 
-<!-- Scroll attributes to position correctly when clicking link menus or scrolling -->
 <html lang="en" class="scroll-smooth scroll-pt-14 lg:scroll-pt-16">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <!-- Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
       rel="stylesheet"
@@ -39,27 +37,22 @@ const navLinks = [
   <body
     class="selection:bg-white/20 selection:text-white bg-black min-h-screen relative overflow-x-hidden"
   >
-    <!-- Render the custom spotlights here -->
     <Spotlights />
 
-    <!-- CustomCursor -->
     <CustomCursor />
 
-    <!-- Mobile nav toggle: checkbox trick -->
     <input
       type="checkbox"
       id="nav-toggle"
       class="fixed opacity-0 w-px h-px pointer-events-none peer"
     />
 
-    <!-- Navbar -->
     <nav
       class="fixed top-0 left-0 right-0 z-50 flex items-center px-5 lg:px-12
              h-14 lg:h-16
              bg-black/60 backdrop-blur-md border-b border-white/25
              pointer-events-none"
     >
-      <!-- Logo -->
       <a
         href="#"
         class="relative z-10 text-3xl md:text-2xl text-gray-200 hover:text-white transition-colors tracking-widest -mt-2 pointer-events-auto"
@@ -68,7 +61,6 @@ const navLinks = [
         JAGARDEV
       </a>
 
-      <!-- Hamburger button (mobile) -->
       <label
         for="nav-toggle"
         class="xl:hidden ml-auto pointer-events-auto cursor-pointer text-gray-400 hover:text-white transition-colors"
@@ -87,8 +79,6 @@ const navLinks = [
         </svg>
       </label>
 
-      <!-- Center bar -->
-      <!-- Perfect mathematical centering using: absolute left-1/2 -translate-x-1/2 -->
       <div
         class="pointer-events-auto hidden xl:flex items-center gap-8 xl:gap-16 absolute left-1/2 -translate-x-1/2 w-max"
       >
@@ -105,7 +95,6 @@ const navLinks = [
       </div>
     </nav>
 
-    <!-- Overlay fullscreen (mobile) -->
     <div
       class="xl:hidden fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm
              flex flex-col items-center justify-center gap-10
@@ -113,7 +102,6 @@ const navLinks = [
              peer-checked:opacity-100 peer-checked:pointer-events-auto
              transition-opacity duration-300"
     >
-      <!-- X button to close menu-->
       <label
         for="nav-toggle"
         class="absolute top-5 right-5 cursor-pointer text-gray-400 hover:text-white transition-colors"
@@ -132,7 +120,6 @@ const navLinks = [
         </svg>
       </label>
 
-      <!-- Logo inside overlay -->
       <a
         href="#"
         class="absolute top-4 left-5 text-2xl text-gray-200 tracking-widest"
@@ -141,7 +128,6 @@ const navLinks = [
         JAGARDEV
       </a>
 
-      <!-- Links -->
       {
         navLinks.map((link) => (
           <a
@@ -154,7 +140,6 @@ const navLinks = [
       }
     </div>
 
-    <!-- Main wrapper -->
     <main
       class="relative z-10 max-w-7xl mx-auto px-5 md:px-12 pt-20 xl:pt-52 pb-16 xl:pb-20 flex flex-col gap-16 xl:gap-32"
     >
@@ -163,29 +148,20 @@ const navLinks = [
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Target all sections with an ID and all navigation links
+        
+        // --- 1. NAVIGATION ACTIVE STATE TRACKING ---
         const sections = document.querySelectorAll("section[id]");
         const navLinks = document.querySelectorAll(".nav-link");
         const mobileLinks = document.querySelectorAll(".mobile-link");
-        const navToggle = document.getElementById(
-          "nav-toggle",
-        ) as HTMLInputElement;
+        const navToggle = document.getElementById("nav-toggle") as HTMLInputElement;
 
-        // --- Close mobile menu on click ---
+        // Close mobile menu on click
         mobileLinks.forEach((link) => {
           link.addEventListener("click", () => {
             if (navToggle) navToggle.checked = false;
           });
         });
 
-        // --- Active section tracking ---
-        // Uses a scroll listener instead of IntersectionObserver because IO
-        // has boundary edge-cases with the fixed navbar height that cause
-        // sections (especially #home) to be missed.
-        //
-        // Logic: iterate sections in DOM order (top-to-bottom). The last
-        // section whose top edge has scrolled past the navbar is the
-        // "current" one. If none have passed, default to "home".
         const NAVBAR_OFFSET = 120; // px below viewport top to count as "entered"
 
         const updateActiveLink = () => {
@@ -226,66 +202,68 @@ const navLinks = [
 
         // Throttle with rAF so we run at most once per frame
         let ticking = false;
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!ticking) {
-              ticking = true;
-              requestAnimationFrame(() => {
-                updateActiveLink();
-                ticking = false;
-              });
-            }
-          },
-          { passive: true },
-        );
+        window.addEventListener("scroll", () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(() => {
+              updateActiveLink();
+              ticking = false;
+            });
+          }
+        }, { passive: true });
 
-        // Set correct initial state on load (handles F5 at any scroll position)
+        // Set correct initial state on load
         updateActiveLink();
-      });
-    </script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const observerOptions = {
+        // --- 2. PREMIUM REVEAL ANIMATION (Intersection Observer) ---
+        const revealOptions = {
           root: null,
-          rootMargin: "0px",
-          threshold: 0.15, // Activation at 15% visibility of the next element
+          // Negative rootMargin ensures the effect doesn't trigger until the element 
+          // is 10% into the viewport from the bottom, giving a better scroll rhythm
+          rootMargin: '0px 0px -05% 0px',
+          threshold: 0.02
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach((entry) => {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("active");
-              // Not repetition when scrolling back up
+              // Add the active class to trigger the CSS transition
+              entry.target.classList.add('active');
+              
+              // Only animate once when scrolling down
               observer.unobserve(entry.target);
             }
           });
-        }, observerOptions);
+        }, revealOptions);
 
-        // Selects all elements with the class 'reveal'
-        const revealElements = document.querySelectorAll(".reveal");
-        revealElements.forEach((el) => observer.observe(el));
+        // Select all elements with the .reveal class and observe them
+        document.querySelectorAll('.reveal').forEach((el) => {
+          revealObserver.observe(el);
+        });
+
       });
     </script>
   </body>
 </html>
 
 <style is:global>
-  /* Scroll animation */
+  /* --- PREMIUM REVEAL EFFECT --- */
   .reveal {
     opacity: 0;
-    transform: translateY(5px);
-    /* Use explicit properties instead of `all` to avoid triggering
-       layout/paint recalculations on every child element (e.g. carousel images) */
-    transition: opacity 0.2s cubic-bezier(0.5, 0, 0, 1),
-                transform 0.2s cubic-bezier(0.5, 0, 0, 1);
-    /* Promote to its own compositor layer to keep animations on the GPU */
-    will-change: opacity, transform;
+    /* Starts slightly lower and with a soft blur */
+    transform: translateY(10px);
+    filter: blur(2px);
+    /* This cubic-bezier curve is the key: starts fast and decelerates veeery smoothly at the end */
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Browser optimization to prevent lag during the animation */
+    will-change: opacity, transform, filter;
   }
 
   .reveal.active {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 </style>
