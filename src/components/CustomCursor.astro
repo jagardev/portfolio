@@ -2,15 +2,17 @@
 // src/components/CustomCursor.astro
 ---
 
-<!-- Single glowing cursor dot (Hidden on mobile, only visible on medium screens and up) -->
+<!-- Single glowing cursor dot — only rendered for mouse/trackpad users (pointer: fine) -->
 <div 
   id="cursor-dot" 
-  class="hidden md:block fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[10000] transform -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(255,255,255,0.99)]"
+  class="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[10000] transform -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(255,255,255,0.99)] opacity-0"
 ></div>
 
 <style is:global>
-  /* Hide the default OS cursor ONLY on desktop */
-  @media (min-width: 768px) {
+  /* Hide the default OS cursor ONLY on devices with a precise pointer AND true hover support.
+     This combination exclusively matches mouse/trackpad devices, excluding touch tablets
+     that may report pointer: fine (e.g. stylus) but cannot truly hover. */
+  @media (pointer: fine) and (hover: hover) {
     * {
       cursor: none !important;
     }
@@ -19,10 +21,14 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Prevent script execution on touch devices (mobiles/tablets)
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Only activate the custom cursor on real mouse/trackpad devices.
+    // (pointer: fine) alone can match stylus tablets; adding (hover: hover) ensures
+    // we only target devices that support true CSS hover (i.e. a mouse).
+    if (!window.matchMedia("(pointer: fine) and (hover: hover)").matches) return;
 
     const dot = document.getElementById('cursor-dot');
+    // Make the cursor dot visible now that we confirmed it's a pointer device
+    if (dot) dot.style.opacity = '1';
     let mouseX = 0;
     let mouseY = 0;
     let isActive = false;

@@ -3,22 +3,17 @@ import Typewriter from "./Typewriter.astro";
 ---
 
 <section id="home" class="flex flex-col items-start w-full mt-2 md:mt-4">
-  <!-- PRE-TITLE -->
   <span
     class="font-mono text-gray-500 text-[18px] md:text-[24px] tracking-[0.18em] md:tracking-[0.25em] uppercase mb-6 md:mb-6 md:mt-0 mt-12"
   >
     Jairo Garcia Antolin
   </span>
 
-  <!-- MAIN TITLE -->
   <h1
     class="md:whitespace-nowrap text-[3.4rem] md:text-[4.5rem] lg:text-[5rem] leading-[1.15] font-sans font-light text-gray-100 max-w-4xl mb-4 md:mb-6 tracking-tight"
   >
     Software <span class="font-serif italic text-gray-300 text-[1.1em]">&</span> AI
     Developer<br />
-    <!-- 
-    Typewriter integration
-    -->
     <Typewriter
       class="font-script text-gray-400 text-[2.4rem] md:text-[4.8rem] lg:text-[5.5rem] align-middle lowercase ml-1"
       words={[
@@ -30,7 +25,6 @@ import Typewriter from "./Typewriter.astro";
     />
   </h1>
 
-  <!-- SUBTITLE -->
   <p
     class="font-mono text-gray-250 text-[18px] md:text-[24px] w-full leading-relaxed mb-12 md:mb-12 md:mt-0 mt-8"
   >
@@ -40,7 +34,6 @@ import Typewriter from "./Typewriter.astro";
     and sacalability.
   </p>
 
-  <!-- BUTTONS -->
   <div class="flex flex-wrap items-center gap-3 md:gap-6">
     <a
       href="#contact"
@@ -52,15 +45,38 @@ import Typewriter from "./Typewriter.astro";
       >
     </a>
 
-    <a
-      href="#projects"
-      class="group relative inline-flex items-center gap-2 md:gap-3 px-4 md:px-3 py-2 md:py-2.5 text-[18px] md:text-[20px] font-mono font-medium text-white bg-[#050505] border border-white/20 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:bg-white hover:text-black transition-all duration-300"
-    >
-      <span>CV</span>
-      <span class="transition-transform duration-300 group-hover:translate-x-1"
-        >&darr;</span
+    <div id="cv-wrapper" class="relative inline-block group/cv z-50">
+      <button
+        id="cv-btn"
+        class="relative inline-flex items-center gap-2 md:gap-3 px-4 md:px-3 py-2 md:py-2.5 text-[18px] md:text-[20px] font-mono font-medium text-white bg-[#050505] border border-white/20 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover/cv:shadow-[0_0_20px_rgba(255,255,255,0.25)] group-[.is-open]/cv:shadow-[0_0_20px_rgba(255,255,255,0.25)] group-hover/cv:bg-white group-[.is-open]/cv:bg-white group-hover/cv:text-black group-[.is-open]/cv:text-black transition-all duration-300 cursor-pointer"
       >
-    </a>
+        <span>CV</span>
+        <span
+          class="transition-transform duration-300 group-hover/cv:translate-y-1 group-[.is-open]/cv:translate-y-1"
+          >&darr;</span
+        >
+      </button>
+
+      <div
+        class="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-32 flex flex-col gap-1 p-1.5 bg-[#050505] border border-white/20 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-0 invisible group-hover/cv:opacity-100 group-hover/cv:visible group-[.is-open]/cv:opacity-100 group-[.is-open]/cv:visible transition-all duration-300 translate-y-2 group-hover/cv:translate-y-0 group-[.is-open]/cv:translate-y-0"
+      >
+        <a
+          href="/cv-jga-2026-en.pdf"
+          target="_blank"
+          class="block px-3 py-2 text-[16px] font-mono text-center text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+        >
+          English
+        </a>
+
+        <a
+          href="/cv-jga-2026-es.pdf"
+          target="_blank"
+          class="block px-3 py-2 text-[16px] font-mono text-center text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+        >
+          Spanish
+        </a>
+      </div>
+    </div>
 
     <div
       class="flex items-center gap-6 md:gap-6 text-gray-500 w-full justify-center md:w-auto md:justify-start mt-6 md:mt-0"
@@ -79,6 +95,7 @@ import Typewriter from "./Typewriter.astro";
           ></path></svg
         >
       </a>
+
       <a
         href="https://github.com/jagardev"
         target="_blank"
@@ -96,3 +113,38 @@ import Typewriter from "./Typewriter.astro";
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cvBtn = document.getElementById("cv-btn");
+    const cvWrapper = document.getElementById("cv-wrapper");
+
+    if (cvBtn && cvWrapper) {
+      // 1. Toggle menu when tapping the CV button on touch devices
+      cvBtn.addEventListener("click", (e) => {
+        if (window.matchMedia("(pointer: coarse)").matches) {
+          e.preventDefault();
+          // Toggle the .is-open class on the wrapper so group-[.is-open]/cv: variants fire
+          cvWrapper.classList.toggle("is-open");
+        }
+      });
+
+      // 2. Close menu when tapping anywhere else on the screen
+      document.addEventListener("click", (e) => {
+        if (window.matchMedia("(pointer: coarse)").matches) {
+          // Only close if the tap originated outside the CV wrapper
+          if (!cvWrapper.contains(e.target as Node)) {
+            cvWrapper.classList.remove("is-open");
+          }
+        }
+      });
+
+      // 3. Close menu immediately when a language link is tapped
+      cvWrapper.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          cvWrapper.classList.remove("is-open");
+        });
+      });
+    }
+  });
+</script>
