@@ -2,21 +2,45 @@
 // src/components/Projects.astro
 import Divider from "./Divider.astro";
 
+// Project data array containing all portfolio items
 const projects = [
   {
-    title: "Data Winds",
-    description: "A robust data validation tool and professional portfolio platform. Built to process complex datasets while presenting a clean, intuitive, and responsive user interface.",
-    tags: ["FastAPI", "React", "PostgreSQL", "Docker"],
-    // Placeholder gradient using your Black, White, and Gold scheme
-    imagePlaceholder: "bg-gradient-to-br from-[#1a1a1a] via-[#050505] to-[#c5a059]/20",
-    liveLink: "#",
-    repoLink: "#"
+    title: "RPG Game System Prototype",
+    description: "Developed from scratch to master core programming fundamentals. It features a dynamic dialogue engine, an interactive inventory UI, and a robust room persistency and save/load system using JSON serialization, all paired with original handmade pixel art.",
+    tags: ["GameMaker", "Handmade", "Java", "Fundamentals"],
+    features: [
+      "Persistency between rooms and save/load system using JSON parsing. To test persistency between rooms, there's a room at the end of the right path.",
+      "Dialogue system using switch statements and custom scripts for text animations.",
+      "Inventory system with menu UI, using arrays and custom scripts.",
+      "Handmade 2D pixel art graphics and animations."
+    ],
+    // Added controls object specifically for games
+    controls: {
+      title: "Keyboard Controls",
+      mapping: {
+        "Movement": "Arrow Keys",
+        "Run": "X",
+        "Interact": "Z",
+        "Menu": "C",
+        "Save Game": "J",
+        "Load Game": "L",
+        "Exit Game": "Esc (Hold)"
+      }
+    },
+    image: "/rpg_demo.webp", 
+    liveLink: "https://gx.games/games/ixtvli/rpg-system-prototype-by-jagardev/tracks/ac6e83ff-5c26-4aaa-ad24-80edb6c8643a/",
+    repoLink: "https://github.com/jagardev/rpg-system-prototype"
   },
   {
     title: "Fantasy Stats Analyzer",
     description: "An analytical engine designed to optimize fantasy sports rosters. It scrapes and aggregates player performance metrics and scoring systems to provide real-time market valuations.",
     tags: ["Python", "Astro", "Tailwind CSS"],
-    // Placeholder gradient with a subtle green/blue analytical vibe
+    features: [
+      "Automated web scraping pipeline handling 10k+ data points daily.",
+      "Machine learning model integration for predictive scoring.",
+      "Responsive data visualization dashboard using Tailwind CSS.",
+      "RESTful API backend for fast data retrieval."
+    ],
     imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
     liveLink: "#",
     repoLink: "#"
@@ -25,7 +49,10 @@ const projects = [
     title: "Fantasy Stats Analyzer",
     description: "An analytical engine designed to optimize fantasy sports rosters. It scrapes and aggregates player performance metrics and scoring systems to provide real-time market valuations.",
     tags: ["Python", "Astro", "Tailwind CSS"],
-    // Placeholder gradient with a subtle green/blue analytical vibe
+    features: [
+      "Automated web scraping pipeline handling 10k+ data points daily.",
+      "Machine learning model integration for predictive scoring."
+    ],
     imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
     liveLink: "#",
     repoLink: "#"
@@ -34,7 +61,10 @@ const projects = [
     title: "Fantasy Stats Analyzer",
     description: "An analytical engine designed to optimize fantasy sports rosters. It scrapes and aggregates player performance metrics and scoring systems to provide real-time market valuations.",
     tags: ["Python", "Astro", "Tailwind CSS"],
-    // Placeholder gradient with a subtle green/blue analytical vibe
+    features: [
+      "Automated web scraping pipeline handling 10k+ data points daily.",
+      "Machine learning model integration for predictive scoring."
+    ],
     imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
     liveLink: "#",
     repoLink: "#"
@@ -42,8 +72,10 @@ const projects = [
 ];
 ---
 
-<section id="projects" class="w-full">
+<section id="projects" class="w-full relative">
   <Divider class="mb-16 xl:mb-24" />
+  
+  <!-- Main Container -->
   <div class="flex flex-col gap-12 max-w-7xl mx-auto w-full px-4 md:px-0 reveal">
     
     <!-- Section Header -->
@@ -64,26 +96,30 @@ const projects = [
 
     <!-- Projects Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mt-4">
-      {projects.map((project) => (
+      {projects.map((project, index) => (
         <div class="flex flex-col bg-[#050505] border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.03] hover:border-white/50 hover:shadow-[inset_0_0_10px_rgba(255,255,255,0.05),_0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all duration-300 group">
           
-          <!-- Image Container (Top 60%) -->
-          <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] overflow-hidden border-b border-white/5">
-            <!-- Simulated Image / Gradient -->
-            <div class={`absolute inset-0 w-full h-full ${project.imagePlaceholder} group-hover:scale-105 transition-transform duration-700 ease-out`}></div>
-            
-            <!-- Optional subtle overlay pattern -->
-            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+          <!-- Image Container -->
+          <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] overflow-hidden border-b border-white/5 bg-[#0a0a0a]">
+            {project.image ? (
+              <img 
+                src={project.image} 
+                alt={`${project.title} screenshot`}
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+            ) : (
+              <div class={`absolute inset-0 w-full h-full ${project.imagePlaceholder} group-hover:scale-105 transition-transform duration-700 ease-out`}></div>
+            )}
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px; pointer-events: none;"></div>
           </div>
 
-          <!-- Content Container (Bottom 40%) -->
-          <div class="flex flex-col p-8 md:p-10 flex-grow relative z-10">
-            <!-- Title -->
-            <h3 class="text-3xl font-sans text-gray-100 font-medium tracking-tight mb-4 group-hover:text-white transition-colors">
+          <!-- Content Container -->
+          <div class="flex flex-col p-6 md:p-8 flex-grow relative z-10">
+            
+            <h3 class="text-2xl md:text-3xl font-sans text-gray-100 font-medium tracking-tight mb-4 group-hover:text-white transition-colors">
               {project.title}
             </h3>
 
-            <!-- Tags (Pill format like the image) -->
             <div class="flex flex-wrap gap-2 mb-6">
               {project.tags.map((tag) => (
                 <span class="px-4 py-1.5 bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 rounded-full font-mono text-[12px] text-gray-200 uppercase tracking-widest shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md hover:border-white/30 hover:text-white hover:shadow-[0_0_10px_rgba(255,255,255,0.1)] transition-all cursor-default">
@@ -92,37 +128,44 @@ const projects = [
               ))}
             </div>
 
-            <!-- Description -->
-            <p class="font-sans text-xl text-gray-500 leading-relaxed mb-8 flex-grow">
+            <p class="font-sans text-lg md:text-xl text-gray-500 leading-relaxed mb-8 flex-grow">
               {project.description}
             </p>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap items-center gap-4 mt-auto">
-              <!-- Live Button -->
+            <!-- Action Buttons Container -->
+            <div class="flex flex-nowrap items-center gap-1 md:gap-4 lg:gap-0 mt-auto w-full overflow-hidden">
               <a 
                 href={project.liveLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white font-mono text-[14px] uppercase tracking-widest border border-white/10 hover:border-white/30 rounded-lg transition-all flex items-center gap-2"
+                class="px-3 py-2 md:px-4 md:py-2.5 bg-white/5 hover:bg-white/10 text-white font-mono text-[11px] md:text-[14px] uppercase tracking-widest border border-white/10 hover:border-white/30 rounded-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 flex-1"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
-                Live Demo
+                <span class="truncate">Live</span>
               </a>
+
+              <button 
+                data-open-modal={`modal-${index}`}
+                class="px-3 py-2 md:px-4 md:py-2.5 bg-transparent hover:bg-white/5 text-gray-400 hover:text-white font-mono text-[11px] md:text-[14px] uppercase tracking-widest border border-transparent hover:border-white/10 rounded-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 flex-1"
+              >
+                <svg class="w-3.5 h-3.5 md:w-5 md:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                </svg>
+                <span class="truncate">Features</span>
+              </button>
               
-              <!-- Repository Button -->
               <a 
                 href={project.repoLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="px-6 py-2.5 bg-transparent hover:bg-white/5 text-gray-400 hover:text-white font-mono text-[14px] uppercase tracking-widest border border-transparent hover:border-white/10 rounded-lg transition-all flex items-center gap-2"
+                class="px-3 py-2 md:px-4 md:py-2.5 bg-transparent hover:bg-white/5 text-gray-400 hover:text-white font-mono text-[11px] md:text-[14px] uppercase tracking-widest border border-transparent hover:border-white/10 rounded-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 flex-1"
               >
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 md:w-6 md:h-6 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
                 </svg>
-                Repository
+                <span class="truncate">Repo</span>
               </a>
             </div>
 
@@ -131,4 +174,157 @@ const projects = [
       ))}
     </div>
   </div>
+
+  <!-- MODALS CONTAINER -->
+  {projects.map((project, index) => (
+    <div 
+      id={`modal-${index}`} 
+      class="project-modal fixed inset-0 w-screen h-screen z-[9999] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0"
+    >
+      <!-- Added 'custom-scrollbar' class here -->
+      <div class="custom-scrollbar bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative p-8 md:p-12 shadow-2xl flex flex-col gap-6 transform scale-95 transition-transform duration-300">
+        
+        <button 
+          data-close-modal={`modal-${index}`} 
+          class="absolute top-6 right-6 text-gray-500 hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-2 transition-all"
+          aria-label="Close modal"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        
+        <div class="flex flex-col gap-2 pr-8">
+          <span class="font-mono text-[14px] text-gray-500 uppercase tracking-widest">Project Details</span>
+          <h3 class="text-2xl md:text-3xl font-sans text-gray-100 font-medium tracking-tight">
+            {project.title}
+          </h3>
+        </div>
+        
+        <hr class="border-white/10 my-2" />
+        
+        <ul class="flex flex-col gap-3 text-gray-300 text-base md:text-lg font-sans">
+          {project.features.map(feature => (
+            <li class="flex items-start gap-3">
+              <span class="text-white/20 mt-0.5 select-none">—</span>
+              <span class="leading-relaxed">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        {project.controls && (
+          <>
+            <hr class="border-white/10 my-2" />
+            <div class="flex flex-col gap-4 bg-white/[0.02] p-5 md:p-6 rounded-xl border border-white/5">
+              <span class="font-mono text-[13px] text-gray-400 uppercase tracking-widest">{project.controls.title}</span>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {Object.entries(project.controls.mapping).map(([action, key], i, arr) => {
+                  // Calculate if this is the last element AND the total number of elements is odd
+                  const isLastOdd = i === arr.length - 1 && arr.length % 2 !== 0;
+                  
+                  return (
+                    <div class={`flex items-center justify-between bg-black/40 border border-white/5 rounded-lg px-4 py-2.5 w-full ${isLastOdd ? 'sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.375rem)]' : ''}`}>
+                      <span class="text-gray-300 font-sans text-[16px]">{action}</span>
+                      <kbd class="px-2.5 py-1 bg-[#1a1a1a] border border-b-2 border-white/20 rounded font-mono text-xs text-white shadow-sm">
+                        {key}
+                      </kbd>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+        
+      </div>
+    </div>
+  ))}
 </section>
+
+<!-- Custom Scrollbar Styles -->
+<style>
+  /* Works on Firefox */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #333333 #0a0a0a;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #0a0a0a;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #333333;
+    border-radius: 10px;
+    border: 2px solid #0a0a0a; /* Creates a slight padding effect around the thumb */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #555555;
+  }
+</style>
+
+<!-- Client-side script to handle Modal Interactivity -->
+<script>
+  function initModals() {
+    const openButtons = document.querySelectorAll('[data-open-modal]');
+    const closeButtons = document.querySelectorAll('[data-close-modal]');
+    const modals = document.querySelectorAll('.project-modal');
+
+    openButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = btn.getAttribute('data-open-modal');
+        const modal = document.getElementById(targetId);
+        
+        if (modal) {
+          modal.classList.remove('hidden');
+          setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.firstElementChild.classList.remove('scale-95');
+            modal.firstElementChild.classList.add('scale-100');
+          }, 10);
+          
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    const closeModal = (modal) => {
+      modal.classList.add('opacity-0');
+      modal.firstElementChild.classList.remove('scale-100');
+      modal.firstElementChild.classList.add('scale-95');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 300); 
+    };
+
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = btn.getAttribute('data-close-modal');
+        const modal = document.getElementById(targetId);
+        if (modal) closeModal(modal);
+      });
+    });
+
+    modals.forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(modal);
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initModals);
+</script>
