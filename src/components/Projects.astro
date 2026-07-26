@@ -1,8 +1,7 @@
 ---
-// src/components/Projects.astro
 import Divider from "./Divider.astro";
 
-// Project data array containing all portfolio items
+// Portfolio project entries rendered in the projects grid
 const projects = [
   {
     title: "RPG Game System Prototype",
@@ -14,7 +13,7 @@ const projects = [
       "Inventory system with menu UI, using arrays and custom scripts.",
       "Handmade 2D pixel art graphics and animations."
     ],
-    // Added controls object specifically for games
+    // Game-specific keyboard control mapping
     controls: {
       title: "Keyboard Controls",
       mapping: {
@@ -75,7 +74,7 @@ const projects = [
 <section id="projects" class="w-full relative">
   <Divider class="mb-16 xl:mb-24" />
   
-  <!-- Main Container -->
+  <!-- Main content container -->
   <div class="flex flex-col gap-12 max-w-7xl mx-auto w-full px-4 md:px-0 reveal">
     
     <!-- Section Header -->
@@ -99,7 +98,7 @@ const projects = [
       {projects.map((project, index) => (
         <div class="flex flex-col bg-[#050505] border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.03] hover:border-white/50 hover:shadow-[inset_0_0_10px_rgba(255,255,255,0.05),_0_0_25px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all duration-300 group">
           
-          <!-- Image Container -->
+          <!-- Project image or gradient placeholder -->
           <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] overflow-hidden border-b border-white/5 bg-[#0a0a0a]">
             {project.image ? (
               <img 
@@ -113,7 +112,7 @@ const projects = [
             <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px; pointer-events: none;"></div>
           </div>
 
-          <!-- Content Container -->
+          <!-- Project details and action buttons -->
           <div class="flex flex-col p-6 md:p-8 flex-grow relative z-10">
             
             <h3 class="text-2xl md:text-3xl font-sans text-gray-100 font-medium tracking-tight mb-4 group-hover:text-white transition-colors">
@@ -132,8 +131,8 @@ const projects = [
               {project.description}
             </p>
 
-            <!-- Action Buttons Container -->
-            <div class="flex flex-nowrap items-center gap-1 md:gap-4 lg:gap-0 mt-auto w-full overflow-hidden">
+            <!-- Action buttons: Live demo, Features modal, Repository -->
+            <div class="flex flex-nowrap items-center gap-1 md:gap-4 lg:gap-4 mt-auto w-full overflow-hidden">
               <a 
                 href={project.liveLink}
                 target="_blank"
@@ -175,13 +174,13 @@ const projects = [
     </div>
   </div>
 
-  <!-- MODALS CONTAINER -->
+  <!-- Feature detail modals rendered for each project -->
   {projects.map((project, index) => (
     <div 
       id={`modal-${index}`} 
       class="project-modal fixed inset-0 w-screen h-screen z-[9999] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0"
     >
-      <!-- Added 'custom-scrollbar' class here -->
+      <!-- Scrollable modal panel with custom scrollbar styling -->
       <div class="custom-scrollbar bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative p-8 md:p-12 shadow-2xl flex flex-col gap-6 transform scale-95 transition-transform duration-300">
         
         <button 
@@ -220,7 +219,7 @@ const projects = [
               
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {Object.entries(project.controls.mapping).map(([action, key], i, arr) => {
-                  // Calculate if this is the last element AND the total number of elements is odd
+                  // Center the last item when the total count is odd
                   const isLastOdd = i === arr.length - 1 && arr.length % 2 !== 0;
                   
                   return (
@@ -242,15 +241,15 @@ const projects = [
   ))}
 </section>
 
-<!-- Custom Scrollbar Styles -->
+<!-- Custom scrollbar overrides for modal panels -->
 <style>
-  /* Works on Firefox */
+  /* Firefox scrollbar styling */
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: #333333 #0a0a0a;
   }
 
-  /* Works on Chrome, Edge, and Safari */
+  /* Webkit-based browsers (Chrome, Edge, Safari) */
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
   }
@@ -263,7 +262,7 @@ const projects = [
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #333333;
     border-radius: 10px;
-    border: 2px solid #0a0a0a; /* Creates a slight padding effect around the thumb */
+    border: 2px solid #0a0a0a; /* Inset padding around the scrollbar thumb */
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -271,7 +270,7 @@ const projects = [
   }
 </style>
 
-<!-- Client-side script to handle Modal Interactivity -->
+<!-- Client-side modal open/close interaction logic -->
 <script>
   function initModals() {
     const openButtons = document.querySelectorAll('[data-open-modal]');

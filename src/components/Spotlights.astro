@@ -1,8 +1,7 @@
 ---
-// src/components/Spotlights.astro
-// Spotlight effects
-// Uses radial gradients instead of blur filters to avoid pixelation.
-// All critical styles are inlined to avoid Tailwind v4 layer conflicts.
+// Ambient spotlight overlay effect.
+// Uses radial gradients instead of blur filters to prevent pixelation.
+// Critical styles are inlined to avoid Tailwind v4 layer conflicts.
 ---
 
 <div
@@ -48,7 +47,7 @@
 </div>
 
 <style is:global>
-  /* Sway animations - only classes needed are for keyframe animations */
+  /* Ambient sway animation keyframes */
   .sl-group-left {
     animation: 7s ease-in-out infinite alternate sl-move-left;
   }

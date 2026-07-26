@@ -1,17 +1,16 @@
 ---
-// src/components/CustomCursor.astro
 ---
 
-<!-- Single glowing cursor dot — only rendered for mouse/trackpad users (pointer: fine) -->
+<!-- Custom glowing cursor dot — only rendered for mouse/trackpad devices (pointer: fine) -->
 <div 
   id="cursor-dot" 
   class="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[10000] transform -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(255,255,255,0.99)] opacity-0"
 ></div>
 
 <style is:global>
-  /* Hide the default OS cursor ONLY on devices with a precise pointer AND true hover support.
-     This combination exclusively matches mouse/trackpad devices, excluding touch tablets
-     that may report pointer: fine (e.g. stylus) but cannot truly hover. */
+  /* Hide the native OS cursor exclusively on devices with a precise pointer and true
+     hover support. This combination targets mouse/trackpad devices while excluding
+     touch tablets that may report pointer: fine (e.g. stylus) but lack hover. */
   @media (pointer: fine) and (hover: hover) {
     * {
       cursor: none !important;
@@ -21,50 +20,48 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Only activate the custom cursor on real mouse/trackpad devices.
-    // (pointer: fine) alone can match stylus tablets; adding (hover: hover) ensures
-    // we only target devices that support true CSS hover (i.e. a mouse).
+    // Only activate the custom cursor for devices with a precise pointer and hover support.
+    // Adding (hover: hover) to (pointer: fine) ensures stylus-only tablets are excluded.
     if (!window.matchMedia("(pointer: fine) and (hover: hover)").matches) return;
 
     const dot = document.getElementById('cursor-dot');
-    // Make the cursor dot visible now that we confirmed it's a pointer device
+    // Reveal the cursor dot once pointer device is confirmed
     if (dot) dot.style.opacity = '1';
     let mouseX = 0;
     let mouseY = 0;
     let isActive = false;
 
-    // Mouse movement tracking
+    // Track mouse coordinates on every move event
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       isActive = true;
 
-      // The dot moves instantly to the cursor position
-      // Using left/top avoids interfering with the CSS transform centering
+      // Position the dot directly at the cursor via left/top (avoids conflicting with CSS transform centering)
       if(dot) {
         dot.style.left = `${mouseX}px`;
         dot.style.top = `${mouseY}px`;
       }
     });
 
-    // Click spark particle effect & dot pulse
+    // Click handler: spawn spark particles and pulse the cursor dot
     window.addEventListener('click', (e) => {
-      const particleCount = 8; // Number of explosion sparks
+      const particleCount = 8;
       for (let i = 0; i < particleCount; i++) {
         createSpark(e.clientX, e.clientY);
       }
       
-      // Fixed pulse: animate ONLY the scale property so it doesn't break the CSS transform centering
+      // Pulse animation: scale only so the CSS transform centering remains intact
       if(dot) {
         dot.animate([
           { scale: 1 },
-          { scale: 0.3 }, // Shrinks tightly to let sparks shine
+          { scale: 0.3 }, // Brief contraction to emphasize the spark burst
           { scale: 1 }
         ], { duration: 250, easing: 'ease-out' });
       }
     });
 
-    // Function to generate the fast click explosion sparks
+    // Generate an explosive spark particle at the given coordinates
     function createSpark(x, y) {
       const particle = document.createElement('div');
       particle.className = 'fixed w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-[9999] shadow-[0_0_8px_rgba(255,255,255,0.9)]';
@@ -88,20 +85,20 @@
       animation.onfinish = () => particle.remove();
     }
 
-    // Continuous magic dust trail (emits every 60ms)
+    // Emit ambient dust particles continuously while the cursor is active (every 60ms)
     setInterval(() => {
       if (isActive) {
         createDust(mouseX, mouseY);
       }
     }, 60);
 
-    // Function to generate slow, floating background particles
+    // Generate a slow-drifting ambient particle near the cursor
     function createDust(x, y) {
       const dust = document.createElement('div');
-      // Tiny glowing dots
+      // Small glowing dot particle
       dust.className = 'fixed w-[3px] h-[3px] bg-white/70 rounded-full pointer-events-none z-[9998] shadow-[0_0_6px_rgba(255,255,255,0.8)]';
       
-      // Spawn slightly offset from the exact center of the cursor
+      // Offset spawn position slightly from cursor center
       const offsetX = (Math.random() - 0.5) * 30;
       const offsetY = (Math.random() - 0.5) * 30;
       
@@ -110,7 +107,7 @@
       
       document.body.appendChild(dust);
 
-      // Drift physics: floats randomly in ALL directions (360 degrees)
+      // Random drift direction across full 360 degrees
       const tx = (Math.random() - 0.5) * 50;
       const ty = (Math.random() - 0.5) * 50;
 
@@ -118,7 +115,7 @@
         { transform: 'translate(-50%, -50%) scale(1)', opacity: Math.random() * 0.6 + 0.2 },
         { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, opacity: 0 }
       ], {
-        duration: 700 + Math.random() * 600, // Lingers longer than click sparks
+        duration: 700 + Math.random() * 600, // Longer lifespan than click sparks
         easing: 'ease-out'
       });
 

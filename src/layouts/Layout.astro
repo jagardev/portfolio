@@ -1,5 +1,4 @@
 ---
-// src/layouts/Layout.astro
 import "../styles/global.css";
 import Spotlights from "../components/Spotlights.astro";
 import CustomCursor from "../components/CustomCursor.astro";
@@ -10,7 +9,7 @@ interface Props {
 
 const { title } = Astro.props;
 
-// Nav items
+// Navigation link definitions
 const navLinks = [
   { name: "HOME", url: "#", active: true },
   { name: "ABOUT", url: "#about", active: false },
@@ -149,46 +148,46 @@ const navLinks = [
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         
-        // --- 1. NAVIGATION ACTIVE STATE TRACKING ---
+        // Navigation: track the currently active section via scroll position
         const sections = document.querySelectorAll("section[id]");
         const navLinks = document.querySelectorAll(".nav-link");
         const mobileLinks = document.querySelectorAll(".mobile-link");
         const navToggle = document.getElementById("nav-toggle") as HTMLInputElement;
 
-        // Close mobile menu on click
+        // Dismiss mobile menu when a link is tapped
         mobileLinks.forEach((link) => {
           link.addEventListener("click", () => {
             if (navToggle) navToggle.checked = false;
           });
         });
 
-        const NAVBAR_OFFSET = 120; // px below viewport top to count as "entered"
+        const NAVBAR_OFFSET = 120; // Vertical offset (px) below viewport top to identify the active section
 
         const updateActiveLink = () => {
-          let activeId = "home"; // default when at the very top
+          let activeId = "home"; // Default to home when scrolled to the top
 
           sections.forEach((section) => {
             const id = section.getAttribute("id");
             if (!id) return;
             const rect = section.getBoundingClientRect();
-            // Section is "current" when its top has scrolled above the offset
+            // A section is considered active when its top edge crosses the offset
             if (rect.top <= NAVBAR_OFFSET) {
               activeId = id;
             }
           });
 
           navLinks.forEach((link) => {
-            // Remove active state
+            // Clear active state
             link.classList.remove("text-white");
 
-            // Restore default inactive colors per link type
+            // Restore default inactive color based on link variant
             if (link.classList.contains("desktop-link")) {
               link.classList.add("text-gray-500");
             } else if (link.classList.contains("mobile-link")) {
               link.classList.add("text-gray-400");
             }
 
-            // Apply active state to the matching link
+            // Highlight the matching navigation link
             const href = link.getAttribute("href");
             if (
               href === `#${activeId}` ||
@@ -200,7 +199,7 @@ const navLinks = [
           });
         };
 
-        // Throttle with rAF so we run at most once per frame
+        // Throttle scroll handler to run at most once per animation frame
         let ticking = false;
         window.addEventListener("scroll", () => {
           if (!ticking) {
@@ -212,14 +211,14 @@ const navLinks = [
           }
         }, { passive: true });
 
-        // Set correct initial state on load
+        // Set the correct initial active state on page load
         updateActiveLink();
 
-        // --- 2. PREMIUM REVEAL ANIMATION (Intersection Observer) ---
+        // Scroll-triggered reveal animation via Intersection Observer
         const revealOptions = {
           root: null,
-          // Negative rootMargin ensures the effect doesn't trigger until the element 
-          // is 10% into the viewport from the bottom, giving a better scroll rhythm
+          // Negative bottom margin delays triggering until the element
+          // is 5% into the viewport, providing a natural scroll rhythm
           rootMargin: '0px 0px -05% 0px',
           threshold: 0.02
         };
@@ -227,16 +226,16 @@ const navLinks = [
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              // Add the active class to trigger the CSS transition
+              // Apply the active class to trigger the CSS transition
               entry.target.classList.add('active');
               
-              // Only animate once when scrolling down
+              // Animate only once per element
               observer.unobserve(entry.target);
             }
           });
         }, revealOptions);
 
-        // Select all elements with the .reveal class and observe them
+        // Observe all elements marked with the .reveal class
         document.querySelectorAll('.reveal').forEach((el) => {
           revealObserver.observe(el);
         });
@@ -247,17 +246,17 @@ const navLinks = [
 </html>
 
 <style is:global>
-  /* --- PREMIUM REVEAL EFFECT --- */
+  /* Scroll-triggered reveal effect: elements fade up and de-blur on entry */
   .reveal {
     opacity: 0;
-    /* Starts slightly lower and with a soft blur */
+    /* Initial state: slightly offset downward with a soft blur */
     transform: translateY(10px);
     filter: blur(2px);
-    /* This cubic-bezier curve is the key: starts fast and decelerates veeery smoothly at the end */
+    /* Deceleration curve: starts fast and eases out smoothly */
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
                 transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
                 filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    /* Browser optimization to prevent lag during the animation */
+    /* Promote properties to the compositor to prevent animation jank */
     will-change: opacity, transform, filter;
   }
 

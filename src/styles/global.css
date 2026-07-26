@@ -1,4 +1,4 @@
-/* src/styles/global.css */
+/* Global stylesheet and Tailwind configuration */
 @import "tailwindcss";
 
 @theme {
@@ -13,7 +13,7 @@
   }
 }
 
-/* Hide scrollbar for the tools carousel */
+/* Hide scrollbar for horizontal carousels */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

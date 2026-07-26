@@ -1,19 +1,17 @@
 ---
-// src/components/Typewriter.astro
-
 interface Props {
   words: string[];
   class?: string;
   showCursor?: boolean;
 }
 
-// We receive an array of words/phrases and an optional class for text styling
+// Destructure props: array of phrases, optional CSS class, and cursor visibility flag
 const { words, class: className = "", showCursor = true } = Astro.props;
 ---
 
 <!-- 
-  We use a custom HTML tag (type-writer) to isolate the script.
-  We pass the words array as a data attribute (data-words) in JSON format.
+  Custom HTML element (<type-writer>) isolates the script scope.
+  The phrases array is passed as a JSON-encoded data attribute.
 -->
 <type-writer
   data-words={JSON.stringify(words)}
@@ -28,10 +26,10 @@ const { words, class: className = "", showCursor = true } = Astro.props;
 </type-writer>
 
 <script>
-  // Define the behavior of the Custom Element
+  // Custom element behavior for the typewriter effect
   class TypeWriter extends HTMLElement {
     connectedCallback() {
-      // Read the words passed from Astro
+      // Parse the phrase list provided by the Astro component
       const words = JSON.parse(this.dataset.words || "[]");
       const textElement = this.querySelector(".typed-text");
 
@@ -43,7 +41,7 @@ const { words, class: className = "", showCursor = true } = Astro.props;
 
       const type = () => {
         const currentWord = words[wordIndex];
-        // Speeds: 40ms for typing, 20ms for deleting
+        // Typing speed: 40ms per character; deletion speed: 20ms per character
         const speed = isDeleting ? 20 : 40;
 
         if (isDeleting) {
@@ -54,27 +52,27 @@ const { words, class: className = "", showCursor = true } = Astro.props;
           charIndex++;
         }
 
-        // Pause and state change logic
+        // State transitions after completing a word
         if (!isDeleting && charIndex === currentWord.length) {
-          // Long pause after finishing typing the phrase
+          // Pause before starting to delete the completed phrase
           isDeleting = true;
           setTimeout(type, 1000);
         } else if (isDeleting && charIndex === 1) {
-          // Switch to the next word and take a short pause before starting
+          // Advance to the next phrase with a brief pause
           isDeleting = false;
           wordIndex = (wordIndex + 1) % words.length;
           setTimeout(type, 500);
         } else {
-          // Continue typing/deleting
+          // Continue the current typing or deletion cycle
           setTimeout(type, speed);
         }
       };
 
-      // Start the cycle
+      // Begin the typewriter animation cycle
       type();
     }
   }
 
-  // Register the component in the browser
+  // Register the custom element in the browser's element registry
   customElements.define("type-writer", TypeWriter);
 </script>

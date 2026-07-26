@@ -1,9 +1,8 @@
 ---
-// src/components/About.astro
 import Divider from "./Divider.astro";
 import Typewriter from "./Typewriter.astro";
 
-// Add your real photo paths here when you have them
+// Image sources for the personal photo carousel
 const carouselImages = [
   "/Cadiz1.webp",
   "Manchester.webp",
@@ -19,11 +18,11 @@ const carouselImages = [
   <Divider class="mb-16 xl:mb-24" />
 
   <div class="max-w-7xl mx-auto w-full px-4 md:px-0">
-    <!-- === SECTION 1: WHAT I DO === -->
+    <!-- Section 1: Professional overview -->
     <div
       class="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20 reveal"
     >
-      <!-- Left: Profile Image -->
+      <!-- Profile image with glow effect on hover -->
       <div
         class="w-[280px] md:w-[320px] lg:w-[380px] mx-auto md:mx-0 shrink-0 relative group"
       >
@@ -39,7 +38,7 @@ const carouselImages = [
         />
       </div>
 
-      <!-- Right: Text Content -->
+      <!-- Professional summary text -->
       <div class="flex-1 flex flex-col gap-6">
         <h2
           class="text-6xl md:text-8xl font-script font-light text-gray-100 tracking-tight"
@@ -68,14 +67,14 @@ const carouselImages = [
       </div>
     </div>
 
-    <!-- Spacer between sections -->
+    <!-- Vertical spacing between sections -->
     <div class="h-16 md:h-24 w-full"></div>
 
-    <!-- === SECTION 2: WHO AM I (Carousel Section) === -->
+    <!-- Section 2: Personal story and image carousel -->
     <div
       class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 items-center reveal"
     >
-      <!-- Left: Text Content -->
+      <!-- Personal biography text -->
       <div class="flex flex-col gap-8 order-2 lg:order-1">
         <h2 class="flex flex-wrap items-center gap-3">
           <span
@@ -139,19 +138,17 @@ const carouselImages = [
         </div>
       </div>
 
-      <!-- Right: Image Carousel -->
+      <!-- Circular image carousel with navigation controls -->
       <div class="flex justify-center lg:justify-end order-1 lg:order-2">
         <div
           class="relative w-80 h-80 md:w-[400px] md:h-[400px] lg:w-[480px] lg:h-[480px] rounded-full p-2 border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.05)] group shrink-0"
         >
-          <!-- Inner wrapper: overflow-hidden + rounded-full handles circular clipping.
-               translateZ(0) promotes to GPU compositor layer. -->
+          <!-- Inner clipping container with GPU-promoted layer via translateZ(0) -->
           <div
             class="relative w-full h-full rounded-full overflow-hidden bg-[#050505] [transform:translateZ(0)]"
           >
-            <!-- Only 2 <img> elements are rendered instead of 7.
-                 This drastically reduces compositing cost since only the active
-                 and transitioning image need GPU layers. The JS swaps src on navigate. -->
+            <!-- Only two <img> elements are rendered to minimize compositing cost.
+                 JavaScript swaps the src attribute on navigation. -->
             <img
               id="carousel-current"
               src={carouselImages[0]}
@@ -161,7 +158,7 @@ const carouselImages = [
               decoding="async"
               fetchpriority="high"
             />
-            <!-- Second image used only during crossfade transitions -->
+            <!-- Secondary image element used during crossfade transitions -->
             <img
               id="carousel-next"
               src=""
@@ -178,9 +175,8 @@ const carouselImages = [
             </div>
           </div>
 
-          <!-- Carousel Controls: Transparent, glowing arrows -->
-          <!-- Carousel controls: replaced drop-shadow CSS filters with text-shadow
-               (filters force paint on every compositor frame; text-shadow does not) -->
+          <!-- Navigation arrow buttons -->
+          <!-- Replaced CSS filter-based glow with text-shadow for better compositor performance -->
           <button
             id="prev-slide"
             class="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 z-30 p-4 text-white/80 hover:text-white hover:scale-110 transition-[color,transform] duration-300 cursor-pointer"
@@ -221,7 +217,7 @@ const carouselImages = [
             >
           </button>
 
-          <!-- Decorative orbital elements -->
+          <!-- Decorative rotating orbital rings -->
           <div
             class="absolute -inset-4 border border-white/5 rounded-full pointer-events-none group-hover:rotate-180 transition-transform duration-[3000ms] ease-out"
           >
@@ -238,7 +234,7 @@ const carouselImages = [
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // ========== IMAGE SOURCE LIST ==========
+    // Carousel image source paths
     const imageSources: string[] = [
       "/Cadiz1.webp",
       "Manchester.webp",
@@ -265,10 +261,10 @@ const carouselImages = [
     let currentIndex = 0;
     let isTransitioning = false;
 
-    // ========== PRE-WARM: Decode all images ahead of time ==========
-    // A warm-up observer fires 600px before the section enters the viewport.
-    // It eagerly decodes every carousel image so the browser has pixel data
-    // ready in its cache. This eliminates the decode-on-first-paint stutter.
+    // Pre-decode all carousel images ahead of time
+    // An IntersectionObserver fires 600px before the section enters the viewport,
+    // eagerly decoding every image so the browser has pixel data ready in cache.
+    // This eliminates decode-on-first-paint stutter.
     const decodedCache = new Map<string, HTMLImageElement>();
 
     const preWarmImages = () => {
@@ -276,20 +272,19 @@ const carouselImages = [
         if (decodedCache.has(src)) return;
         const img = new Image();
         img.src = src;
-        // decode() returns a promise that resolves once the image
-        // is fully decoded into GPU-ready pixel data
+        // decode() resolves once the image is fully decoded into GPU-ready pixel data
         img
           .decode()
           .then(() => {
             decodedCache.set(src, img);
           })
           .catch(() => {
-            // Decode failed (broken image, etc.) — ignore silently
+            // Decode failed for this source — skip silently
           });
       });
     };
 
-    // Fire the pre-warm 600px before the section scrolls into view
+    // Trigger pre-decode 600px before the section scrolls into view
     const warmupObserver = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
@@ -303,49 +298,46 @@ const carouselImages = [
     );
     warmupObserver.observe(aboutSection);
 
-    // Also start pre-warming during idle time if the browser supports it
+    // Additionally pre-warm during idle time if the API is available
     if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(() => preWarmImages(), {
         timeout: 3000,
       });
     }
 
-    // ========== CAROUSEL NAVIGATION ==========
-    // Uses a 2-element crossfade: swap the "next" image src, fade it in,
-    // then once the transition ends, move it to "current" and reset.
+    // Crossfade navigation: loads the target image into the hidden element,
+    // fades it in, then swaps it into the primary slot once complete.
     const navigateTo = (newIndex: number) => {
       if (isTransitioning || newIndex === currentIndex) return;
       isTransitioning = true;
 
-      // Prepare the next image behind the current one
+      // Stage the incoming image behind the current one
       nextImg.src = imageSources[newIndex];
       nextImg.alt = `Personal insight ${newIndex + 1}`;
 
-      // Start the crossfade once the DOM element has decoded the new src.
-      // NOTE: we always call decode() even if the file was pre-warmed, because
-      // pre-warming caches the file data in the browser but the <img> element
-      // still needs to decode its own new src into a renderable bitmap.
+      // Start the crossfade after the DOM element finishes decoding.
+      // We always call decode() even if the source was pre-warmed, because the
+      // <img> element still needs to decode its own new src into a renderable bitmap.
       const startCrossfade = () => {
-        // Force a reflow so the browser commits the current state
-        // (opacity:0, transition:none) before we apply the new state.
-        // Without this, the browser may batch both changes into the same
-        // style recalculation and skip the animation entirely.
+        // Force a reflow so the browser commits the current state (opacity:0,
+        // transition:none) before applying the new values. Without this, the
+        // browser may batch both changes and skip the animation entirely.
         void nextImg.offsetHeight;
 
-        // Now set the transition FIRST, then change opacity
+        // Apply transition and fade in the incoming image
         nextImg.style.transition = "opacity 150ms ease-in-out";
         nextImg.style.opacity = "1";
         nextImg.style.zIndex = "10";
 
-        // After the crossfade completes, swap current ← next and reset
+        // Once the crossfade completes, promote the new image to the primary slot
         const onTransitionEnd = () => {
           nextImg.removeEventListener("transitionend", onTransitionEnd);
 
-          // Move the new image into the "current" slot (no visual change)
+          // Copy the new source into the primary image element
           currentImg.src = imageSources[newIndex];
           currentImg.alt = `Personal insight ${newIndex + 1}`;
 
-          // Reset the next image for the following transition
+          // Reset the secondary element for the next transition
           nextImg.style.transition = "none";
           nextImg.style.opacity = "0";
           nextImg.style.zIndex = "0";
@@ -357,7 +349,7 @@ const carouselImages = [
         nextImg.addEventListener("transitionend", onTransitionEnd);
       };
 
-      // Always decode through the DOM element before fading in
+      // Decode through the DOM element before initiating the crossfade
       nextImg.decode().then(startCrossfade).catch(startCrossfade);
     };
 

@@ -120,26 +120,26 @@ import Typewriter from "./Typewriter.astro";
     const cvWrapper = document.getElementById("cv-wrapper");
 
     if (cvBtn && cvWrapper) {
-      // 1. Toggle menu when tapping the CV button on touch devices
+      // Toggle dropdown visibility on touch devices
       cvBtn.addEventListener("click", (e) => {
         if (window.matchMedia("(pointer: coarse)").matches) {
           e.preventDefault();
-          // Toggle the .is-open class on the wrapper so group-[.is-open]/cv: variants fire
+          // Toggle .is-open class to activate group-based Tailwind variants
           cvWrapper.classList.toggle("is-open");
         }
       });
 
-      // 2. Close menu when tapping anywhere else on the screen
+      // Dismiss dropdown when tapping outside the CV wrapper
       document.addEventListener("click", (e) => {
         if (window.matchMedia("(pointer: coarse)").matches) {
-          // Only close if the tap originated outside the CV wrapper
+          // Close only if the event target is outside the wrapper
           if (!cvWrapper.contains(e.target as Node)) {
             cvWrapper.classList.remove("is-open");
           }
         }
       });
 
-      // 3. Close menu immediately when a language link is tapped
+      // Dismiss dropdown after a language link is selected
       cvWrapper.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
           cvWrapper.classList.remove("is-open");
