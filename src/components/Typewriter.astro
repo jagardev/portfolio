@@ -7,7 +7,12 @@ interface Props {
 }
 
 // Destructure props: array of phrases, optional CSS class, cursor visibility flag, and localization key
-const { words, class: className = "", showCursor = true, langKey } = Astro.props;
+const {
+  words,
+  class: className = "",
+  showCursor = true,
+  langKey,
+} = Astro.props;
 ---
 
 <!--
@@ -16,15 +21,15 @@ const { words, class: className = "", showCursor = true, langKey } = Astro.props
 -->
 <type-writer
   data-words={JSON.stringify(words)}
-  {...(langKey ? { "data-localization-words": langKey } : {})}
-  class="inline-flex items-center"
+  {...langKey ? { "data-localization-words": langKey } : {}}
+  class="inline"
 >
   <span class={`typed-text ${className}`}></span>
-  {showCursor && (
-    <span
-      class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]"
-    ></span>
-  )}
+  {
+    showCursor && (
+      <span class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]" />
+    )
+  }
 </type-writer>
 
 <script>
@@ -72,7 +77,7 @@ const { words, class: className = "", showCursor = true, langKey } = Astro.props
           // Pause before starting to delete the completed phrase
           isDeleting = true;
           this._timeout = setTimeout(type, 1000);
-        } else if (isDeleting && charIndex === 1) {
+        } else if (isDeleting && charIndex === 0) {
           // Advance to the next phrase with a brief pause
           isDeleting = false;
           wordIndex = (wordIndex + 1) % words.length;
@@ -111,3 +116,10 @@ const { words, class: className = "", showCursor = true, langKey } = Astro.props
   // Register the custom element in the browser's element registry
   customElements.define("type-writer", TypeWriter);
 </script>
+
+<style>
+  /* Prevents layout shift when text content is empty */
+  .typed-text::before {
+    content: "\200b";
+  }
+</style>
