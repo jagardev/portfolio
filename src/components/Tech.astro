@@ -3,6 +3,7 @@ import Divider from "./Divider.astro";
 
 const techCategories = [
   {
+    key: "frontend",
     title: "Frontend",
     description: "UX/UI design",
     icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />`,
@@ -17,6 +18,7 @@ const techCategories = [
     ],
   },
   {
+    key: "backend",
     title: "Backend",
     description: "Architecture & databases",
     icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />`,
@@ -31,6 +33,7 @@ const techCategories = [
     ],
   },
   {
+    key: "devops",
     title: "Dev Ops",
     description: "Deployment & collaboration",
     icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11v4m-4 4a3 3 0 116 0 3 3 0 016 0zM16 11V7a2 2 0 00-2-2h-2M16 15a3 3 0 11-6 0 3 3 0 016 0z" />`,
@@ -45,6 +48,7 @@ const techCategories = [
     ],
   },
   {
+    key: "ai",
     title: "AI Tools",
     description: "Productivity & coding assistance",
     icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />`,
@@ -80,15 +84,17 @@ const techCategories = [
             stroke-width="1.5"
             d="M8 9l3 3-3 3m5 0h3M4 6h16v12H4V6z"></path>
         </svg>
-        Tech
+        <span data-localization="tech.title.main">Tech</span>
         <span
           class="font-script text-gray-400 lowercase text-6xl md:text-8xl align-middle pr-4"
+          data-localization="tech.title.accent"
         >
           stack
         </span>
       </h2>
       <p
         class="font-mono text-gray-500 text-[18px] uppercase tracking-widest mt-2"
+        data-localization="tech.subtitle"
       >
         Reliable tools that deliver
       </p>
@@ -113,10 +119,10 @@ const techCategories = [
               </div>
 
               <div>
-                <h3 class="font-mono text-[26px] md:text-[26px] text-gray-200 uppercase tracking-widest group-hover:text-white transition-colors duration-300">
+                <h3 class="font-mono text-[26px] md:text-[26px] text-gray-200 uppercase tracking-widest group-hover:text-white transition-colors duration-300" data-localization={`tech.${category.key}.title`}>
                   {category.title}
                 </h3>
-                <p class="font-sans text-[18px] md:text-[20px] text-gray-500 mt-1">
+                <p class="font-sans text-[18px] md:text-[20px] text-gray-500 mt-1" data-localization={`tech.${category.key}.desc`}>
                   {category.description}
                 </p>
               </div>

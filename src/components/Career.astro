@@ -48,9 +48,9 @@ const careerItems = [
         <svg class="w-10 h-10 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
         </svg>  
-        Career <span class="font-script text-gray-400 lowercase text-6xl md:text-8xl align-middle pr-4">trajectory</span>
+        <span data-localization="career.title.main">Career </span><span class="font-script text-gray-400 lowercase text-6xl md:text-8xl align-middle pr-4" data-localization="career.title.accent">trajectory</span>
       </h2>
-      <p class="font-mono text-gray-500 text-[18px] uppercase tracking-widest mt-2">This is just the beginning</p>
+      <p class="font-mono text-gray-500 text-[18px] uppercase tracking-widest mt-2" data-localization="career.subtitle">This is just the beginning</p>
     </div>
 
     <!-- Timeline layout with vertical connector line -->
@@ -62,7 +62,7 @@ const careerItems = [
 
       <!-- Career entry list -->
       <div class="flex flex-col gap-10">
-        {careerItems.map((item) => (
+        {careerItems.map((item, index) => (
           // The group class enables coordinated hover styling on the dot and text
           <div class="relative pl-10 md:pl-12 group">
             
@@ -76,20 +76,20 @@ const careerItems = [
             {/* Entry content */}
             <div class="flex flex-col gap-1.5 cursor-default">
               {/* Date range badge */}
-              <span class="font-mono text-[13px] font-semibold text-gray-100/90 uppercase tracking-widest bg-gray-400/10 border border-gray-100/50 px-2 py-0.5 rounded-full w-max">
+              <span class="font-mono text-[13px] font-semibold text-gray-100/90 uppercase tracking-widest bg-gray-400/10 border border-gray-100/50 px-2 py-0.5 rounded-full w-max" data-localization={`career.${index}.year`}>
                 {item.year}
               </span>
               
               {/* Role title and organization */}
-              <h3 class="font-sans text-2xl md:text-3xl text-gray-200 font-medium mt-1 group-hover:text-white transition-colors duration-300">
+              <h3 class="font-sans text-2xl md:text-3xl text-gray-200 font-medium mt-1 group-hover:text-white transition-colors duration-300" data-localization={`career.${index}.title`}>
                 {item.title}
               </h3>
-              <h4 class="font-sans text-[16px] md:text-[18px] text-gray-400 italic">
+              <h4 class="font-sans text-[16px] md:text-[18px] text-gray-400 italic" data-localization={`career.${index}.institution`}>
                 {item.institution}
               </h4>
               
               {/* Role description */}
-              <p class="font-mono text-gray-350 md:text-[18px] text-[18px] leading-relaxed mt-2 max-w-2xl group-hover:text-gray-200 transition-colors duration-300">
+              <p class="font-mono text-gray-350 md:text-[18px] text-[18px] leading-relaxed mt-2 max-w-2xl group-hover:text-gray-200 transition-colors duration-300" data-localization={`career.${index}.description`}>
                 {item.description}
               </p>
             </div>

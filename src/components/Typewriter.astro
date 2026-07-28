@@ -3,18 +3,20 @@ interface Props {
   words: string[];
   class?: string;
   showCursor?: boolean;
+  langKey?: string;
 }
 
-// Destructure props: array of phrases, optional CSS class, and cursor visibility flag
-const { words, class: className = "", showCursor = true } = Astro.props;
+// Destructure props: array of phrases, optional CSS class, cursor visibility flag, and localization key
+const { words, class: className = "", showCursor = true, langKey } = Astro.props;
 ---
 
-<!-- 
+<!--
   Custom HTML element (<type-writer>) isolates the script scope.
   The phrases array is passed as a JSON-encoded data attribute.
 -->
 <type-writer
   data-words={JSON.stringify(words)}
+  {...(langKey ? { "data-localization-words": langKey } : {})}
   class="inline-flex items-center"
 >
   <span class={`typed-text ${className}`}></span>
@@ -28,9 +30,22 @@ const { words, class: className = "", showCursor = true } = Astro.props;
 <script>
   // Custom element behavior for the typewriter effect
   class TypeWriter extends HTMLElement {
+    private _timeout: ReturnType<typeof setTimeout> | null = null;
+    private _currentWords: string[] = [];
+
     connectedCallback() {
+      this._startTyping();
+
+      // Restart typing when the language changes
+      document.addEventListener("lang-change", () => {
+        this._handleLangChange();
+      });
+    }
+
+    private _startTyping() {
       // Parse the phrase list provided by the Astro component
-      const words = JSON.parse(this.dataset.words || "[]");
+      const words: string[] = JSON.parse(this.dataset.words || "[]");
+      this._currentWords = words;
       const textElement = this.querySelector(".typed-text");
 
       if (!words.length || !textElement) return;
@@ -56,20 +71,40 @@ const { words, class: className = "", showCursor = true } = Astro.props;
         if (!isDeleting && charIndex === currentWord.length) {
           // Pause before starting to delete the completed phrase
           isDeleting = true;
-          setTimeout(type, 1000);
+          this._timeout = setTimeout(type, 1000);
         } else if (isDeleting && charIndex === 1) {
           // Advance to the next phrase with a brief pause
           isDeleting = false;
           wordIndex = (wordIndex + 1) % words.length;
-          setTimeout(type, 500);
+          this._timeout = setTimeout(type, 500);
         } else {
           // Continue the current typing or deletion cycle
-          setTimeout(type, speed);
+          this._timeout = setTimeout(type, speed);
         }
       };
 
       // Begin the typewriter animation cycle
       type();
+    }
+
+    private _handleLangChange() {
+      const newWords: string[] = JSON.parse(this.dataset.words || "[]");
+
+      // Skip restart if words haven't changed
+      if (JSON.stringify(newWords) === JSON.stringify(this._currentWords))
+        return;
+
+      // Cancel current animation
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+        this._timeout = null;
+      }
+
+      // Clear displayed text and restart with updated words
+      const textElement = this.querySelector(".typed-text");
+      if (textElement) textElement.textContent = "";
+
+      this._startTyping();
     }
   }
 

@@ -42,6 +42,7 @@ const carouselImages = [
       <div class="flex-1 flex flex-col gap-6">
         <h2
           class="text-6xl md:text-8xl font-script font-light text-gray-100 tracking-tight"
+          data-localization-html="about.whatido.title"
         >
           What i <span class="text-gray-400">do</span>
         </h2>
@@ -49,11 +50,11 @@ const carouselImages = [
         <div
           class="font-mono text-gray-400 md:text-[20px] text-[18px] leading-relaxed space-y-5 max-w-2xl mt-4"
         >
-          <p>
+          <p data-localization="about.whatido.p1">
             Software developer based in Málaga-Spain, specializing in building
             robust and scalable systems.
           </p>
-          <p>
+          <p data-localization-html="about.whatido.p2">
             I'm currently working towards expanding my technical horizon into <span
               class="text-gray-200"
             >
@@ -79,32 +80,36 @@ const carouselImages = [
         <h2 class="flex flex-wrap items-center gap-3">
           <span
             class="font-script text-gray-100 text-6xl md:text-8xl tracking-tight mr-4"
+            data-localization="about.whoami.part1"
             >Who am
           </span>
           <span
             class="font-script font-light text-gray-400 text-6xl md:text-8xl lowercase mt-2 md:mt-4"
-            >i</span
+            data-localization="about.whoami.part2">i</span
           >
         </h2>
 
         <div
           class="flex flex-col gap-6 font-mono text-[18px] md:text-[19px] text-gray-400 leading-relaxed w-full lg:pr-6"
         >
-          <p>
+          <p data-localization-html="about.whoami.p1">
             I'm just a guy who loves <span class="text-gray-200"
               >technology, videogames and discovering things.
             </span>
           </p>
-          <p>
-            I'm addicted to the feeling of <span class="text-gray-200"
-              >learning</span
-            > new things:
+          <p class="min-h-[4.5rem] md:min-h-0">
+            <span data-localization-html="about.whoami.learning"
+              >I'm addicted to the feeling of <span class="text-gray-200"
+                >learning</span
+              > new things:</span
+            >
             <Typewriter
               class="font-mono italic text-gray-300 text-[18px] md:text-[19px] align-middle lowercase ml-1"
               showCursor={false}
+              langKey="about.whoami.typewriter"
               words={[
                 " cities",
-                " lenguages",
+                " languages",
                 " technologies",
                 " videogames",
                 " music",
@@ -113,11 +118,11 @@ const carouselImages = [
               ]}
             />
           </p>
-          <p>
+          <p data-localization="about.whoami.p3">
             I'm certain that's how we keep on growing and rediscovering
             ourselves.
           </p>
-          <p>
+          <p data-localization-html="about.whoami.elsword">
             My favourite childhood game was Elsword, a side scrolling 2.5D
             action game where i <span class="text-gray-200">competed</span> against
             many other skilled players around the world.
@@ -127,7 +132,7 @@ const carouselImages = [
             > i traveled to Cologne (Germany) where i would be crowned as the European
             champion at the Gamescom after a well-heated long competition.
           </p>
-          <p>
+          <p data-localization-html="about.whoami.discipline">
             I believe that the same kind of <span class="text-gray-200"
               >discipline</span
             > i have to win that trophy is also required to <span

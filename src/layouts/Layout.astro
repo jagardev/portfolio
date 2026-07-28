@@ -85,6 +85,7 @@ const navLinks = [
           navLinks.map((link) => (
             <a
               href={link.url}
+              data-localization={`nav.${link.url.replace("#", "") || "home"}`}
               class="nav-link desktop-link text-[20px] font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 text-gray-500 hover:text-gray-200"
             >
               {link.name}
@@ -92,6 +93,19 @@ const navLinks = [
           ))
         }
       </div>
+
+      <!-- Language toggle: desktop -->
+      <button
+        id="lang-toggle-desktop"
+        class="hidden xl:flex items-center gap-2 absolute right-[20%] pointer-events-auto font-mono text-[18px] font-bold tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-80"
+      >
+        <span class="lang-en text-white transition-colors duration-300">EN</span
+        >
+        <span class="text-gray-600">/</span>
+        <span class="lang-es text-gray-500 transition-colors duration-300"
+          >ES</span
+        >
+      </button>
     </nav>
 
     <div
@@ -131,12 +145,26 @@ const navLinks = [
         navLinks.map((link) => (
           <a
             href={link.url}
+            data-localization={`nav.${link.url.replace("#", "") || "home"}`}
             class="nav-link mobile-link text-2xl font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 cursor-pointer text-gray-400 hover:text-white"
           >
             {link.name}
           </a>
         ))
       }
+
+      <!-- Language toggle: mobile -->
+      <button
+        id="lang-toggle-mobile"
+        class="mt-10 flex items-center gap-2.5 font-mono text-xl tracking-widest cursor-pointer"
+      >
+        <span class="lang-en text-white transition-colors duration-300">EN</span
+        >
+        <span class="text-gray-600">/</span>
+        <span class="lang-es text-gray-500 transition-colors duration-300"
+          >ES</span
+        >
+      </button>
     </div>
 
     <main
@@ -147,12 +175,13 @@ const navLinks = [
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        
         // Navigation: track the currently active section via scroll position
         const sections = document.querySelectorAll("section[id]");
         const navLinks = document.querySelectorAll(".nav-link");
         const mobileLinks = document.querySelectorAll(".mobile-link");
-        const navToggle = document.getElementById("nav-toggle") as HTMLInputElement;
+        const navToggle = document.getElementById(
+          "nav-toggle",
+        ) as HTMLInputElement;
 
         // Dismiss mobile menu when a link is tapped
         mobileLinks.forEach((link) => {
@@ -201,15 +230,19 @@ const navLinks = [
 
         // Throttle scroll handler to run at most once per animation frame
         let ticking = false;
-        window.addEventListener("scroll", () => {
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(() => {
-              updateActiveLink();
-              ticking = false;
-            });
-          }
-        }, { passive: true });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(() => {
+                updateActiveLink();
+                ticking = false;
+              });
+            }
+          },
+          { passive: true },
+        );
 
         // Set the correct initial active state on page load
         updateActiveLink();
@@ -219,16 +252,16 @@ const navLinks = [
           root: null,
           // Negative bottom margin delays triggering until the element
           // is 5% into the viewport, providing a natural scroll rhythm
-          rootMargin: '0px 0px -05% 0px',
-          threshold: 0.02
+          rootMargin: "0px 0px -05% 0px",
+          threshold: 0.02,
         };
 
         const revealObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               // Apply the active class to trigger the CSS transition
-              entry.target.classList.add('active');
-              
+              entry.target.classList.add("active");
+
               // Animate only once per element
               observer.unobserve(entry.target);
             }
@@ -236,10 +269,87 @@ const navLinks = [
         }, revealOptions);
 
         // Observe all elements marked with the .reveal class
-        document.querySelectorAll('.reveal').forEach((el) => {
+        document.querySelectorAll(".reveal").forEach((el) => {
           revealObserver.observe(el);
         });
+      });
+    </script>
 
+    <!-- Localization: apply saved language and bind toggle buttons -->
+    <script>
+      import { translations, getLang, setLang } from "../localization";
+      import type { Lang } from "../localization";
+
+      function applyTranslations(): void {
+        const lang = getLang();
+
+        document.documentElement.lang = lang;
+
+        const title = translations[lang]?.["page.title"];
+        if (title && typeof title === "string") document.title = title;
+
+        // Update text-only elements
+        document
+          .querySelectorAll<HTMLElement>("[data-localization]")
+          .forEach((el) => {
+            const key = el.getAttribute("data-localization");
+            if (!key) return;
+            const val = translations[lang]?.[key] ?? translations.en[key];
+            if (val && typeof val === "string") el.textContent = val;
+          });
+
+        // Update HTML-content elements (styled spans, etc.)
+        document
+          .querySelectorAll<HTMLElement>("[data-localization-html]")
+          .forEach((el) => {
+            const key = el.getAttribute("data-localization-html");
+            if (!key) return;
+            const val = translations[lang]?.[key] ?? translations.en[key];
+            if (val && typeof val === "string") el.innerHTML = val;
+          });
+
+        // Update typewriter word arrays
+        document
+          .querySelectorAll<HTMLElement>("[data-localization-words]")
+          .forEach((el) => {
+            const key = el.getAttribute("data-localization-words");
+            if (!key) return;
+            const val = translations[lang]?.[key] ?? translations.en[key];
+            if (val && Array.isArray(val)) {
+              el.setAttribute("data-words", JSON.stringify(val));
+            }
+          });
+
+        // Toggle button active states
+        document.querySelectorAll<HTMLElement>(".lang-en").forEach((el) => {
+          el.classList.toggle("text-white", lang === "en");
+          el.classList.toggle("text-gray-500", lang !== "en");
+        });
+        document.querySelectorAll<HTMLElement>(".lang-es").forEach((el) => {
+          el.classList.toggle("text-white", lang === "es");
+          el.classList.toggle("text-gray-500", lang !== "es");
+        });
+
+        // Notify dynamic components (Typewriter)
+        document.dispatchEvent(
+          new CustomEvent("lang-change", { detail: { lang } }),
+        );
+      }
+
+      function toggleLang(): void {
+        const next: Lang = getLang() === "en" ? "es" : "en";
+        setLang(next);
+        applyTranslations();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        applyTranslations();
+        document
+          .getElementById("lang-toggle-desktop")
+          ?.addEventListener("click", toggleLang);
+        document
+          .getElementById("lang-toggle-mobile")
+          ?.addEventListener("click", toggleLang);
       });
     </script>
   </body>
@@ -253,9 +363,10 @@ const navLinks = [
     transform: translateY(10px);
     filter: blur(2px);
     /* Deceleration curve: starts fast and eases out smoothly */
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     /* Promote properties to the compositor to prevent animation jank */
     will-change: opacity, transform, filter;
   }
