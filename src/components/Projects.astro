@@ -3,6 +3,24 @@ import Divider from "./Divider.astro";
 
 // Portfolio project entries rendered in the projects grid
 const projects = [
+    {
+    title: "Sampleton: Audio Library App",
+    description: "Users can upload, browse, and stream audio samples, organize them into playlists, leave comments, and like their favorite tracks. This full-stack application features JWT authentication, dark/white mode, responsive design, and a persistent audio player.",
+    tags: ["Python", "Django", "PostgreSQL", "Docker", "React", "Tailwind CSS", "Typescript", "Pytest", "Vercel","Render", "Neon"],
+    features: [
+      "Persistent global audio player engine built on React Layout/Outlet state, ensuring uninterrupted playback across client-side route transitions.",
+      "Complete RESTful CRUD management for audio tracks, custom cover art, and playlists backed by Neon PostgreSQL storage.",
+      "JWT-based security architecture featuring protected routes, automatic token expiration handling via Axios interceptors, and 1-click recruiter demo account.",
+      "Backend-enforced object-level permission guards in Django REST ViewSets, restricting delete/edit actions exclusively to resource owners.",
+      "Interactive track detail interface featuring simulated waveform visualization, play count tracking, likes toggling, and track-level comment feeds.",
+      "Client & server-side form validation using regex patterns for strict password complexity, email verification, and multipart/form-data upload constraints.",
+      "Multi-tab personal library dashboard and real-time search engine for instant filtering across tracks, genres, playlists, and user interactions.",
+      "Automated API testing suite implemented with Pytest (pytest-django), validating authentication endpoints, file uploads, and database operations."
+    ],
+    image: "/sampleton.png",
+    liveLink: "https://sampleton.vercel.app/",
+    repoLink: "https://github.com/jagardev/sampleton"
+  },
   {
     title: "RPG Game System Prototype",
     description: "Developed from scratch to master core programming fundamentals. It features a dynamic dialogue engine, an interactive inventory UI, and a robust room persistency and save/load system using JSON serialization, all paired with original handmade pixel art.",
@@ -33,7 +51,7 @@ const projects = [
   {
     title: "Web Portfolio",
     description: "A high-performance, modern developer portfolio built with Astro 5 and Tailwind CSS v4. Designed with focus on clean architecture, smooth animations, optimized asset delivery, and responsive UI/UX.",
-    tags: ["JavaScript", "Astro", "Tailwind CSS"],
+    tags: ["JavaScript", "Astro", "Tailwind CSS", "Vercel"],
     features: [
       "Uses Astro, Tailwind CSS and JavaScript to deliver a static site optimized for performance and SEO.",
       "Engineered fluid, high-performance scroll reveal animations using Intersection Observer and hardware-accelerated CSS transitions.",
@@ -43,18 +61,6 @@ const projects = [
     image: "portfolio.svg",
     liveLink: "https://jagardev.vercel.app/",
     repoLink: "https://github.com/jagardev/portfolio"
-  },
-  {
-    title: "Fantasy Stats Analyzer",
-    description: "An analytical engine designed to optimize fantasy sports rosters. It scrapes and aggregates player performance metrics and scoring systems to provide real-time market valuations.",
-    tags: ["Python", "Astro", "Tailwind CSS"],
-    features: [
-      "Automated web scraping pipeline handling 10k+ data points daily.",
-      "Machine learning model integration for predictive scoring."
-    ],
-    imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
-    liveLink: "#",
-    repoLink: "#"
   },
   {
     title: "Fantasy Stats Analyzer",
