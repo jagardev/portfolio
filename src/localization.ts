@@ -229,7 +229,7 @@ export const translations: Record<Lang, Record<string, string | string[]>> = {
     "education.title.accent": "académica",
     "education.subtitle": "Conocimiento en constante expansión",
     "education.0.year": "2026 - Actualidad",
-    "education.0.title": "Especialización en IA y Big Data",
+    "education.0.title": "Curso de Especialización en IA y Big Data (Master FP)",
     "education.0.institution": "Nivel EQF 5 | IES Zaidín Vergeles - Granada",
     "education.0.description": "Especialización en algoritmos de machine learning, deep learning y arquitecturas de datos escalables. Proyecto final basado en modelos predictivos para optimización de backend.",
     "education.1.year": "2024 - 2026",
