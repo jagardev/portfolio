@@ -168,7 +168,7 @@ export const translations: Record<Lang, Record<string, string | string[]>> = {
     "about.whoami.part1": "Quién",
     "about.whoami.part2": "soy",
     "about.whoami.p1": 'Soy un apasionado de <span class="text-gray-200">la tecnología, los videojuegos y descubrir cosas nuevas.</span>',
-    "about.whoami.learning": 'Me engancha la sensación de <span class="text-gray-200">aprender</span> siempre algo nuevo:',
+    "about.whoami.learning": 'Estoy enganchado a la sensación de <span class="text-gray-200">aprender</span> siempre algo nuevo:',
     "about.whoami.typewriter": ["ciudades", "idiomas", "tecnologías", "videojuegos", "música", "películas", "culturas"],
     "about.whoami.p3": "Estoy convencido de que así es como seguimos creciendo y redescubriéndonos.",
     "about.whoami.elsword": 'Mi juego favorito de la infancia fue Elsword, un juego de acción 2.5D side-scrolling en el que <span class="text-gray-200">competí</span> contra jugadores de todo el mundo. <span class="text-gray-200">Gané el torneo europeo más importante de la historia de Elsword en 2016,</span> viajé a Colonia (Alemania) donde fui coronado campeón de Europa en la Gamescom tras una larga y reñida competición.',
