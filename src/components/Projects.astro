@@ -63,16 +63,18 @@ const projects = [
     repoLink: "https://github.com/jagardev/portfolio"
   },
   {
-    title: "Fantasy Stats Analyzer",
-    description: "An analytical engine designed to optimize fantasy sports rosters. It scrapes and aggregates player performance metrics and scoring systems to provide real-time market valuations.",
-    tags: ["Python", "Astro", "Tailwind CSS"],
+    title: "AI Text Summarizer",
+    description: "A high-performance asynchronous REST API built with FastAPI and PostgreSQL that leverages the Groq inference engine (Llama 3.1) for low-latency AI text summarization and Clean Architecture design.",
+    tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Pytest", "Pydantic", "Vercel", "Render", "Neon"],
     features: [
-      "Automated web scraping pipeline handling 10k+ data points daily.",
-      "Machine learning model integration for predictive scoring."
+      "Fully asynchronous architecture built with FastAPI, Async SQLAlchemy, and the Groq Python SDK for ultra-fast Llama 3.1 inference.",
+      "PostgreSQL data persistence via Docker Compose to maintain and query historical text summarization logs.",
+      "Comprehensive asynchronous test coverage built with Pytest, utilizing AsyncMock to isolate external LLM APIs and database operations.",
+      "Strict schema validation and auto-generated interactive OpenAPI/Swagger documentation using Pydantic."
     ],
     imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
     liveLink: "#",
-    repoLink: "#"
+    repoLink: "https://github.com/jagardev/ai-text-summarizer"
   }
 ];
 ---
