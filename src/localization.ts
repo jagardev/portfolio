@@ -23,7 +23,7 @@ export const translations: Record<Lang, Record<string, string | string[]>> = {
     "about.whoami.part1": "Who am",
     "about.whoami.part2": "i",
     "about.whoami.p1": 'I\'m just a guy who loves <span class="text-gray-200">technology, videogames and discovering things.</span>',
-    "about.whoami.learning": 'I\'m addicted to the feeling of keep on <span class="text-gray-200">learning</span> new things:',
+    "about.whoami.learning": 'I\'m addicted to the feeling of keep on <span class="text-gray-200"> learning</span> new things:',
     "about.whoami.typewriter": ["cities", "languages", "technologies", "videogames", "music", "movies", "cultures"],
     "about.whoami.p3": "I'm certain that's how we keep on growing and rediscovering ourselves.",
     "about.whoami.elsword": 'My favourite childhood game was Elsword, a side scrolling 2.5D action game where i <span class="text-gray-200">competed</span> against many other skilled players around the world. <span class="text-gray-200">I won the biggest European tournament of Elsword\'s history back in 2016,</span> i traveled to Cologne (Germany) where i would be crowned as the European champion at the Gamescom after a well-heated long competition.',
