@@ -48,14 +48,14 @@ const navLinks = [
     />
 
     <nav
-      class="fixed top-0 left-0 right-0 z-50 flex items-center px-5 lg:px-12
+      class="fixed top-0 left-0 right-0 z-50 flex xl:grid xl:grid-cols-[1fr_auto_1fr] items-center px-5 lg:px-12
              h-14 lg:h-16
              bg-black/60 backdrop-blur-md border-b border-white/25
              pointer-events-none"
     >
       <a
         href="#"
-        class="relative z-10 text-3xl md:text-2xl text-gray-200 hover:text-white transition-colors tracking-widest -mt-2 pointer-events-auto"
+        class="relative z-10 text-3xl md:text-2xl text-gray-200 hover:text-white transition-colors tracking-widest -mt-2 pointer-events-auto justify-self-start"
         style="font-family: 'Permanent Marker', cursive;"
       >
         JAGARDEV
@@ -80,7 +80,7 @@ const navLinks = [
       </label>
 
       <div
-        class="pointer-events-auto hidden xl:flex items-center gap-8 xl:gap-16 absolute left-1/2 -translate-x-1/2 w-max"
+        class="pointer-events-auto hidden xl:flex items-center justify-center gap-8 xl:gap-16 w-max"
       >
         {
           navLinks.map((link) => (
@@ -98,7 +98,7 @@ const navLinks = [
       <!-- Language toggle: desktop -->
       <button
         id="lang-toggle-desktop"
-        class="hidden xl:flex items-center gap-2 absolute right-[20%] pointer-events-auto font-mono text-[18px] font-bold tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-80"
+        class="hidden xl:flex justify-self-center items-center gap-2 pointer-events-auto font-mono text-[18px] font-bold tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-80"
       >
         <span class="lang-en text-white transition-colors duration-300">EN</span
         >
