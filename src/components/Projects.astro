@@ -22,6 +22,34 @@ const projects = [
     repoLink: "https://github.com/jagardev/sampleton"
   },
   {
+    title: "SummarAIzer: Your AI Text Summarizer",
+    description: "A high-performance asynchronous REST API built with FastAPI and PostgreSQL that leverages the Groq inference engine (Llama 3.1) for low-latency AI text summarization and Clean Architecture design.",
+    tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Pytest", "Astro", "Tailwind CSS", "Pydantic", "Vercel", "Render", "Neon"],
+    features: [
+      "Fully asynchronous architecture built with FastAPI, Async SQLAlchemy, and the Groq Python SDK for ultra-fast Llama 3.1 inference.",
+      "PostgreSQL data persistence via Docker Compose to maintain and query historical text summarization logs.",
+      "Comprehensive asynchronous test coverage built with Pytest, utilizing AsyncMock to isolate external LLM APIs and database operations.",
+      "Strict schema validation and auto-generated interactive OpenAPI/Swagger documentation using Pydantic."
+    ],
+    image: "summarizer.png",
+    liveLink: "https://summaraizer-nine.vercel.app/",
+    repoLink: "https://github.com/jagardev/summaraizer"
+  },
+  {
+    title: "Web Portfolio",
+    description: "A high-performance, modern developer portfolio built with Astro 5 and Tailwind CSS v4. Designed with focus on clean architecture, smooth animations, optimized asset delivery, and responsive UI/UX.",
+    tags: ["JavaScript", "Astro", "Tailwind CSS", "Vercel"],
+    features: [
+      "Uses Astro, Tailwind CSS and JavaScript to deliver a static site optimized for performance and SEO.",
+      "Engineered fluid, high-performance scroll reveal animations using Intersection Observer and hardware-accelerated CSS transitions.",
+      "Leveraged Astro's Static Site Generation (SSG) to deliver highly optimized asset loading and superior SEO performance.",
+      "Implemented a mobile-first, responsive UI featuring touch-optimized navigation and pure Tailwind CSS interactive components."
+    ],
+    image: "portfolio.svg",
+    liveLink: "https://jagardev.vercel.app/",
+    repoLink: "https://github.com/jagardev/portfolio"
+  },
+  {
     title: "RPG Game System Prototype",
     description: "Developed from scratch to master core programming fundamentals. It features a dynamic dialogue engine, an interactive inventory UI, and a robust room persistency and save/load system using JSON serialization, all paired with original handmade pixel art.",
     tags: ["GameMaker", "Handmade", "Java", "Fundamentals"],
@@ -47,34 +75,6 @@ const projects = [
     image: "/rpg_demo.webp", 
     liveLink: "https://gx.games/games/ixtvli/rpg-system-prototype-by-jagardev/tracks/ac6e83ff-5c26-4aaa-ad24-80edb6c8643a/",
     repoLink: "https://github.com/jagardev/rpg-system-prototype"
-  },
-  {
-    title: "Web Portfolio",
-    description: "A high-performance, modern developer portfolio built with Astro 5 and Tailwind CSS v4. Designed with focus on clean architecture, smooth animations, optimized asset delivery, and responsive UI/UX.",
-    tags: ["JavaScript", "Astro", "Tailwind CSS", "Vercel"],
-    features: [
-      "Uses Astro, Tailwind CSS and JavaScript to deliver a static site optimized for performance and SEO.",
-      "Engineered fluid, high-performance scroll reveal animations using Intersection Observer and hardware-accelerated CSS transitions.",
-      "Leveraged Astro's Static Site Generation (SSG) to deliver highly optimized asset loading and superior SEO performance.",
-      "Implemented a mobile-first, responsive UI featuring touch-optimized navigation and pure Tailwind CSS interactive components."
-    ],
-    image: "portfolio.svg",
-    liveLink: "https://jagardev.vercel.app/",
-    repoLink: "https://github.com/jagardev/portfolio"
-  },
-  {
-    title: "AI Text Summarizer",
-    description: "A high-performance asynchronous REST API built with FastAPI and PostgreSQL that leverages the Groq inference engine (Llama 3.1) for low-latency AI text summarization and Clean Architecture design.",
-    tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Pytest", "Pydantic", "Vercel", "Render", "Neon"],
-    features: [
-      "Fully asynchronous architecture built with FastAPI, Async SQLAlchemy, and the Groq Python SDK for ultra-fast Llama 3.1 inference.",
-      "PostgreSQL data persistence via Docker Compose to maintain and query historical text summarization logs.",
-      "Comprehensive asynchronous test coverage built with Pytest, utilizing AsyncMock to isolate external LLM APIs and database operations.",
-      "Strict schema validation and auto-generated interactive OpenAPI/Swagger documentation using Pydantic."
-    ],
-    imagePlaceholder: "bg-gradient-to-bl from-[#050505] via-[#0a192f] to-[#10b981]/10",
-    liveLink: "#",
-    repoLink: "https://github.com/jagardev/ai-text-summarizer"
   }
 ];
 ---
