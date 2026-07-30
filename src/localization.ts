@@ -305,11 +305,21 @@ export function getLang(): Lang {
   if (typeof window === "undefined") return "en";
   
   // Check if user has explicitly saved a language preference
-  const savedLang = localStorage.getItem("lang") as Lang;
-  if (savedLang) return savedLang;
+  let savedLang: Lang | null = null;
+  try {
+    savedLang = localStorage.getItem("lang") as Lang;
+  } catch (e) {
+    // Ignore error (e.g. strict privacy settings or incognito)
+  }
+  if (savedLang === "en" || savedLang === "es") return savedLang;
   
   // If not saved, check browser language
-  const browserLang = navigator.language || (navigator as any).userLanguage;
+  let browserLang = "";
+  try {
+    browserLang = navigator.language || (navigator as any).userLanguage || "";
+  } catch(e) {
+    // Ignore
+  }
   if (browserLang && browserLang.toLowerCase().startsWith('es')) {
     return 'es';
   }
@@ -319,7 +329,11 @@ export function getLang(): Lang {
 
 /** Saves the selected language to localStorage. */
 export function setLang(lang: Lang): void {
-  localStorage.setItem("lang", lang);
+  try {
+    localStorage.setItem("lang", lang);
+  } catch (e) {
+    // Ignore error
+  }
 }
 
 /** Returns a translated string for the given key. */

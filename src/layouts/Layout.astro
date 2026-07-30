@@ -96,17 +96,15 @@ const navLinks = [
       </div>
 
       <!-- Language toggle: desktop -->
-      <button
+      <div
         id="lang-toggle-desktop"
-        class="hidden xl:flex justify-self-center items-center gap-2 pointer-events-auto font-mono text-[18px] font-bold tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-80"
+        class="hidden xl:flex justify-self-center items-center gap-2 pointer-events-auto font-mono text-[18px] font-bold tracking-widest transition-opacity duration-300"
       >
-        <span class="lang-en text-white transition-colors duration-300">EN</span
-        >
+        <button class="lang-en text-white transition-colors duration-300 hover:opacity-80 cursor-pointer">EN</button>
         <span class="text-gray-600">/</span>
-        <span class="lang-es text-gray-500 transition-colors duration-300"
-          >ES</span
-        >
-      </button>
+        <button class="lang-es text-gray-500 transition-colors duration-300 hover:opacity-80 cursor-pointer"
+          >ES</button>
+      </div>
     </nav>
 
     <div
@@ -155,17 +153,15 @@ const navLinks = [
       }
 
       <!-- Language toggle: mobile -->
-      <button
+      <div
         id="lang-toggle-mobile"
-        class="mt-10 flex items-center gap-2.5 font-mono text-xl tracking-widest cursor-pointer"
+        class="mt-10 flex items-center gap-2.5 font-mono text-xl tracking-widest"
       >
-        <span class="lang-en text-white transition-colors duration-300">EN</span
-        >
+        <button class="lang-en text-white transition-colors duration-300 cursor-pointer">EN</button>
         <span class="text-gray-600">/</span>
-        <span class="lang-es text-gray-500 transition-colors duration-300"
-          >ES</span
-        >
-      </button>
+        <button class="lang-es text-gray-500 transition-colors duration-300 cursor-pointer"
+          >ES</button>
+      </div>
     </div>
 
     <main
@@ -337,20 +333,24 @@ const navLinks = [
         );
       }
 
-      function toggleLang(): void {
-        const next: Lang = getLang() === "en" ? "es" : "en";
-        setLang(next);
+      function setLangEn(): void {
+        setLang("en");
+        applyTranslations();
+      }
+
+      function setLangEs(): void {
+        setLang("es");
         applyTranslations();
       }
 
       document.addEventListener("DOMContentLoaded", () => {
         applyTranslations();
         document
-          .getElementById("lang-toggle-desktop")
-          ?.addEventListener("click", toggleLang);
+          .querySelectorAll(".lang-en")
+          .forEach((el) => el.addEventListener("click", setLangEn));
         document
-          .getElementById("lang-toggle-mobile")
-          ?.addEventListener("click", toggleLang);
+          .querySelectorAll(".lang-es")
+          .forEach((el) => el.addEventListener("click", setLangEs));
       });
     </script>
   </body>
