@@ -190,7 +190,7 @@ export const translations: Record<Lang, Record<string, string | string[]>> = {
     "projects.title.main": "Productos",
     "projects.title.accent": "creados",
     "projects.subtitle": "Aprender sin parar, crear sin límites",
-    "projects.btn.live": "Demo",
+    "projects.btn.live": "Ver",
     "projects.btn.features": "Detalles",
     "projects.btn.repo": "Repo",
     "projects.modal.label": "Detalles del proyecto",
