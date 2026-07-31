@@ -254,7 +254,7 @@ export const translations: Record<Lang, Record<string, string | string[]>> = {
     "career.title.accent": "profesional",
     "career.subtitle": "Esto es solo el principio",
     "career.0.year": "03/2026 - 07/2026",
-    "career.0.title": "Desarrollador de Software (Becario)",
+    "career.0.title": "Desarrollador de Software",
     "career.0.institution": "Data Control SL | 4 meses",
     "career.0.description": "Manipulación de datos con DataFlex y SQL. Construcción y mantenimiento de bases de datos, dashboards y plataformas Moodle.",
     "career.1.year": "01/2024 - 03/2026",
