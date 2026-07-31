@@ -20,7 +20,8 @@ A high-performance, modern developer portfolio built with **Astro 5** and **Tail
 - 🖼️ **Hardware-Accelerated Carousel**: Custom dual-element crossfade system using `HTMLImageElement.decode()` pre-warming and IntersectionObservers for stutter-free image transitions.
 - 🎯 **Smart Navbar Observer**: Smooth section-tracking scroll listener to detect active sections without layout thrashing.
 - ✍️ **Dynamic Typewriter Effect**: Custom component for animated text switching.
-- 🎨 **Sleek Dark Aesthetics**: Glassmorphism, ambient spotlight glows, and interactive hover feedback.
+- 🎨 **Sleek Dark Aesthetics**: Glassmorphism, interactive hover feedback, and custom cursor physics.
+- ✨ **Native Ambient Particle Engine**: A lightweight, custom-built Vanilla JS particle system for organic floating dust and spark effects, optimized for 60fps without heavy external libraries.
 - 📱 **Fully Responsive**: Mobile-first fluid design tailored for screen sizes from smartphones to ultrawide displays.
 
 ---
@@ -39,7 +40,7 @@ d:\Portfolio Projects\jagardev-portfolio\
 │   │   ├── Education.astro    # Academic background
 │   │   ├── Hero.astro         # Main landing hero with typewriter
 │   │   ├── Projects.astro     # Showcase of featured projects
-│   │   ├── Spotlights.astro   # Ambient background lighting
+│   │   ├── Effects.astro      # Native ambient particles & background effects
 │   │   ├── Tech.astro         # Tech stack & skills overview
 │   │   └── Typewriter.astro   # Custom text animation component
 │   ├── layouts/

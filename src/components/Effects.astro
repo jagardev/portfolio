@@ -1,0 +1,80 @@
+---
+// Ambient sporadic dust effect, replicating the CustomCursor dust
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Generate sporadic dust particles randomly across the entire viewport
+    function spawnAmbientDust() {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+
+      // Subtle spark burst exactly at the moment of appearance
+      // Emits 3 to 4 tiny sparks around the orb exactly when it spawns
+      const sparkCount = Math.floor(Math.random() * 2) + 3; // 3 to 4 sparks
+      for (let i = 0; i < sparkCount; i++) {
+        const spark = document.createElement("div");
+        spark.className = "fixed w-[2px] h-[2px] bg-white/80 rounded-full pointer-events-none z-[0] shadow-[0_0_4px_rgba(255,255,255,0.9)]";
+        
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        document.body.appendChild(spark);
+
+        const stx = (Math.random() - 0.5) * 60;
+        const sty = (Math.random() - 0.5) * 60;
+
+        const sAnim = spark.animate([
+          { transform: "translate(-50%, -50%) scale(1)", opacity: Math.random() * 0.5 + 0.3 },
+          { transform: `translate(calc(-50% + ${stx}px), calc(-50% + ${sty}px)) scale(0)`, opacity: 0 }
+        ], {
+          duration: 600 + Math.random() * 400,
+          easing: "ease-out"
+        });
+        sAnim.onfinish = () => spark.remove();
+      }
+
+      const dust = document.createElement("div");
+      // Exact same styling as the mouse dust, but z-index 0 to stay in the background
+      dust.className =
+        "fixed w-[5px] h-[5px] bg-white/70 rounded-full pointer-events-none z-[0] shadow-[0_0_50px_rgba(255,255,255,0.8)]";
+
+      dust.style.left = `${x}px`;
+      dust.style.top = `${y}px`;
+
+      document.body.appendChild(dust);
+
+      // Reduced translation distance for a much slower, more relaxing drift
+      const tx = (Math.random() - 0.5) * 30;
+      const ty = (Math.random() - 0.5) * 30;
+
+      const animation = dust.animate(
+        [
+          {
+            transform: "translate(-50%, -50%) scale(1)",
+            opacity: Math.random() * 0.6 + 0.2,
+          },
+          {
+            transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
+            opacity: 0,
+          },
+        ],
+        {
+          // Lifespan heavily extended (3s - 5s) to slow down the animation significantly
+          duration: 3000 + Math.random() * 2000,
+          easing: "ease-out",
+        }
+      );
+
+      animation.onfinish = () => dust.remove();
+
+      // Schedule the next particle randomly (between 150ms and 500ms)
+      // Increased delay to reduce the total number of particles on screen
+      setTimeout(spawnAmbientDust, 150 + Math.random() * 350);
+    }
+
+    // Kick off multiple asynchronous loops to ensure constant ambient presence
+    for (let i = 0; i < 3; i++) {
+      setTimeout(spawnAmbientDust, Math.random() * 1000);
+    }
+  });
+</script>
