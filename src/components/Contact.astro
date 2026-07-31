@@ -127,11 +127,15 @@ const personalInfo = {
         />
 
         <!-- Honeypot field for spam prevention -->
+        <label for="botcheck" class="sr-only">Don't fill this out if you're human</label>
         <input
           type="checkbox"
+          id="botcheck"
           name="botcheck"
           class="hidden"
           style="display: none;"
+          tabindex="-1"
+          aria-hidden="true"
         />
 
         <!-- Sender label shown in notification emails -->

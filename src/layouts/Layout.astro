@@ -63,6 +63,7 @@ const navLinks = [
         for="nav-toggle"
         class="xl:hidden ml-auto pointer-events-auto cursor-pointer text-gray-400 hover:text-white transition-colors"
       >
+        <span class="sr-only">Open navigation menu</span>
         <svg
           class="w-6 h-6"
           fill="none"
@@ -112,9 +113,11 @@ const navLinks = [
              peer-checked:opacity-100 peer-checked:pointer-events-auto
              transition-opacity duration-300"
     >
-      <label
-        for="nav-toggle"
-        class="absolute top-5 right-5 cursor-pointer text-gray-400 hover:text-white transition-colors"
+      <button
+        type="button"
+        id="nav-close"
+        aria-label="Close navigation menu"
+        class="absolute top-5 right-5 cursor-pointer text-gray-400 hover:text-white transition-colors bg-transparent border-none"
       >
         <svg
           class="w-7 h-7"
@@ -128,7 +131,7 @@ const navLinks = [
             stroke-width="2"
             d="M6 18L18 6M6 6l12 12"></path>
         </svg>
-      </label>
+      </button>
 
       <a
         href="#"
@@ -177,6 +180,14 @@ const navLinks = [
         const navToggle = document.getElementById(
           "nav-toggle",
         ) as HTMLInputElement;
+        const navClose = document.getElementById("nav-close");
+
+        // Close menu with the new button
+        if (navClose) {
+          navClose.addEventListener("click", () => {
+            if (navToggle) navToggle.checked = false;
+          });
+        }
 
         // Dismiss mobile menu when a link is tapped
         mobileLinks.forEach((link) => {
