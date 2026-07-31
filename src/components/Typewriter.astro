@@ -24,7 +24,8 @@ const {
   {...langKey ? { "data-localization-words": langKey } : {}}
   class="inline"
 >
-  <span class={`typed-text ${className}`}></span>
+  <!-- Pre-render the first word to prevent LCP delay caused by empty initial state -->
+  <span class={`typed-text ${className}`}>{words.length > 0 ? words[0] : ""}</span>
   {
     showCursor && (
       <span class="md:w-[4px] md:h-[0.8em] w-[3px] h-[0.5em] bg-white md:ml-4 ml-2 inline-block animate-[pulse_0.8s_ease-in-out_infinite]" />
@@ -55,9 +56,12 @@ const {
 
       if (!words.length || !textElement) return;
 
+      const currentText = textElement.textContent || "";
       let wordIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
+      // Start character index based on what is already in the DOM
+      let charIndex = currentText.length;
+      // If we have text, our next action is deleting it
+      let isDeleting = charIndex > 0;
 
       const type = () => {
         const currentWord = words[wordIndex];
@@ -88,8 +92,12 @@ const {
         }
       };
 
-      // Begin the typewriter animation cycle
-      type();
+      // If text is pre-rendered, wait 1000ms before deleting, otherwise start immediately
+      if (charIndex > 0) {
+        this._timeout = setTimeout(type, 1000);
+      } else {
+        type();
+      }
     }
 
     private _handleLangChange() {
