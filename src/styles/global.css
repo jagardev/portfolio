@@ -1,10 +1,16 @@
 /* Global stylesheet and Tailwind configuration */
 @import "tailwindcss";
 
+/* Self-hosted Google Fonts via Fontsource — eliminates external CDN latency */
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/caveat";
+@import "@fontsource/permanent-marker";
+
 @theme {
-  --font-sans: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-script: 'Caveat', cursive;
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+  --font-script: 'Caveat Variable', 'Caveat', cursive;
 }
 
 @layer base {

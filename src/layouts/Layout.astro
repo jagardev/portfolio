@@ -28,25 +28,6 @@ const navLinks = [
     <meta name="color-scheme" content="dark only" />
     <meta name="description" content="Jairo Garcia Antolin - Software & AI Developer. I design scalable systems and build modern software solutions." />
     <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
 
@@ -349,7 +330,14 @@ const navLinks = [
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        applyTranslations();
+        // Only apply translations on initial load if the user's saved
+        // language is NOT English. The HTML is already server-rendered in
+        // English, so calling applyTranslations() for "en" would just
+        // needlessly walk the DOM and delay the first paint.
+        const savedLang = getLang();
+        if (savedLang !== "en") {
+          applyTranslations();
+        }
         document
           .querySelectorAll(".lang-en")
           .forEach((el) => el.addEventListener("click", setLangEn));
