@@ -26,11 +26,27 @@ const navLinks = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark only" />
+    <meta name="description" content="Jairo Garcia Antolin - Software & AI Developer. I design scalable systems and build modern software solutions." />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&family=Permanent+Marker&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
 
@@ -44,6 +60,7 @@ const navLinks = [
     <input
       type="checkbox"
       id="nav-toggle"
+      aria-label="Toggle navigation"
       class="fixed opacity-0 w-px h-px pointer-events-none peer"
     />
 
@@ -87,7 +104,7 @@ const navLinks = [
             <a
               href={link.url}
               data-localization={`nav.${link.url.replace("#", "") || "home"}`}
-              class="nav-link desktop-link text-[20px] font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 text-gray-500 hover:text-gray-200"
+              class="nav-link desktop-link text-[20px] font-script font-extrabold tracking-[0.2em] uppercase transition-colors duration-300 text-gray-400 hover:text-gray-200"
             >
               {link.name}
             </a>
@@ -102,7 +119,7 @@ const navLinks = [
       >
         <button class="lang-en text-white transition-colors duration-300 hover:opacity-80 cursor-pointer">EN</button>
         <span class="text-gray-600">/</span>
-        <button class="lang-es text-gray-500 transition-colors duration-300 hover:opacity-80 cursor-pointer"
+        <button class="lang-es text-gray-400 transition-colors duration-300 hover:opacity-80 cursor-pointer"
           >ES</button>
       </div>
     </nav>
@@ -159,7 +176,7 @@ const navLinks = [
       >
         <button class="lang-en text-white transition-colors duration-300 cursor-pointer">EN</button>
         <span class="text-gray-600">/</span>
-        <button class="lang-es text-gray-500 transition-colors duration-300 cursor-pointer"
+        <button class="lang-es text-gray-400 transition-colors duration-300 cursor-pointer"
           >ES</button>
       </div>
     </div>
@@ -187,31 +204,13 @@ const navLinks = [
           });
         });
 
-        const NAVBAR_OFFSET = 120; // Vertical offset (px) below viewport top to identify the active section
-
-        const updateActiveLink = () => {
-          let activeId = "home"; // Default to home when scrolled to the top
-
-          sections.forEach((section) => {
-            const id = section.getAttribute("id");
-            if (!id) return;
-            const rect = section.getBoundingClientRect();
-            // A section is considered active when its top edge crosses the offset
-            if (rect.top <= NAVBAR_OFFSET) {
-              activeId = id;
-            }
-          });
-
+        const updateActiveLink = (activeId) => {
           navLinks.forEach((link) => {
             // Clear active state
             link.classList.remove("text-white");
 
-            // Restore default inactive color based on link variant
-            if (link.classList.contains("desktop-link")) {
-              link.classList.add("text-gray-500");
-            } else if (link.classList.contains("mobile-link")) {
-              link.classList.add("text-gray-400");
-            }
+            // Restore default inactive color
+            link.classList.add("text-gray-400");
 
             // Highlight the matching navigation link
             const href = link.getAttribute("href");
@@ -220,29 +219,31 @@ const navLinks = [
               (activeId === "home" && (href === "#" || href === "#home"))
             ) {
               link.classList.add("text-white");
-              link.classList.remove("text-gray-500", "text-gray-400");
+              link.classList.remove("text-gray-400");
             }
           });
         };
 
-        // Throttle scroll handler to run at most once per animation frame
-        let ticking = false;
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!ticking) {
-              ticking = true;
-              requestAnimationFrame(() => {
-                updateActiveLink();
-                ticking = false;
-              });
-            }
+        const sectionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const id = entry.target.getAttribute("id");
+                if (id) updateActiveLink(id);
+              }
+            });
           },
-          { passive: true },
+          { rootMargin: "-120px 0px -80% 0px", threshold: 0 }
         );
 
-        // Set the correct initial active state on page load
-        updateActiveLink();
+        sections.forEach((section) => {
+          sectionObserver.observe(section);
+        });
+
+        // Fallback for absolute top of the page
+        window.addEventListener("scroll", () => {
+          if (window.scrollY < 50) updateActiveLink("home");
+        }, { passive: true });
 
         // Scroll-triggered reveal animation via Intersection Observer
         const revealOptions = {
@@ -320,11 +321,11 @@ const navLinks = [
         // Toggle button active states
         document.querySelectorAll<HTMLElement>(".lang-en").forEach((el) => {
           el.classList.toggle("text-white", lang === "en");
-          el.classList.toggle("text-gray-500", lang !== "en");
+          el.classList.toggle("text-gray-400", lang !== "en");
         });
         document.querySelectorAll<HTMLElement>(".lang-es").forEach((el) => {
           el.classList.toggle("text-white", lang === "es");
-          el.classList.toggle("text-gray-500", lang !== "es");
+          el.classList.toggle("text-gray-400", lang !== "es");
         });
 
         // Notify dynamic components (Typewriter)

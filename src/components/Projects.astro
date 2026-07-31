@@ -1,5 +1,10 @@
 ---
 import Divider from "./Divider.astro";
+import { Image } from "astro:assets";
+
+import sampletonImg from "../assets/images/sampleton.png";
+import summarizerImg from "../assets/images/summarizer.png";
+import rpgImg from "../assets/images/rpg_demo.webp";
 
 // Portfolio project entries rendered in the projects grid
 const projects = [
@@ -17,7 +22,7 @@ const projects = [
       "Multi-tab personal library dashboard and real-time search engine for instant filtering across tracks, genres, playlists, and user interactions.",
       "Automated API testing suite implemented with Pytest (pytest-django), validating authentication endpoints, file uploads, and database operations."
     ],
-    image: "/sampleton.png",
+    image: sampletonImg,
     liveLink: "https://sampleton.vercel.app/",
     repoLink: "https://github.com/jagardev/sampleton"
   },
@@ -31,7 +36,7 @@ const projects = [
       "Comprehensive asynchronous test coverage built with Pytest, utilizing AsyncMock to isolate external LLM APIs and database operations.",
       "Strict schema validation and auto-generated interactive OpenAPI/Swagger documentation using Pydantic."
     ],
-    image: "summarizer.png",
+    image: summarizerImg,
     liveLink: "https://summaraizer-nine.vercel.app/",
     repoLink: "https://github.com/jagardev/summaraizer"
   },
@@ -45,7 +50,7 @@ const projects = [
       "Leveraged Astro's Static Site Generation (SSG) to deliver highly optimized asset loading and superior SEO performance.",
       "Implemented a mobile-first, responsive UI featuring touch-optimized navigation and pure Tailwind CSS interactive components."
     ],
-    image: "portfolio.svg",
+    image: "/portfolio.svg",
     liveLink: "https://jagardev.vercel.app/",
     repoLink: "https://github.com/jagardev/portfolio"
   },
@@ -72,7 +77,7 @@ const projects = [
         "Exit Game": "Esc (Hold)"
       }
     },
-    image: "/rpg_demo.webp", 
+    image: rpgImg, 
     liveLink: "https://gx.games/games/ixtvli/rpg-system-prototype-by-jagardev/tracks/ac6e83ff-5c26-4aaa-ad24-80edb6c8643a/",
     repoLink: "https://github.com/jagardev/rpg-system-prototype"
   }
@@ -96,7 +101,7 @@ const projects = [
           products
         </span>
       </h2>
-      <p class="font-mono text-gray-500 text-[18px] uppercase tracking-widest mt-2" data-localization="projects.subtitle">
+      <p class="font-mono text-gray-400 text-[18px] uppercase tracking-widest mt-2" data-localization="projects.subtitle">
         Keep learning, keep delivering
       </p>
     </div>
@@ -109,11 +114,23 @@ const projects = [
           <!-- Project image or gradient placeholder -->
           <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] overflow-hidden border-b border-white/5 bg-[#0a0a0a]">
             {project.image ? (
-              <img 
-                src={project.image} 
-                alt={`${project.title} screenshot`}
-                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
+              typeof project.image === 'string' ? (
+                <img 
+                  src={project.image} 
+                  alt={`${project.title} screenshot`}
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                  decoding="async"
+                  width="1280"
+                  height="720"
+                />
+              ) : (
+                <Image 
+                  src={project.image} 
+                  alt={`${project.title} screenshot`}
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+              )
             ) : (
               <div class={`absolute inset-0 w-full h-full ${project.imagePlaceholder} group-hover:scale-105 transition-transform duration-700 ease-out`}></div>
             )}
@@ -135,7 +152,7 @@ const projects = [
               ))}
             </div>
 
-            <p data-localization={`projects.${index}.description`} class="font-sans text-lg md:text-xl text-gray-500 leading-relaxed mb-8 flex-grow">
+            <p data-localization={`projects.${index}.description`} class="font-sans text-lg md:text-xl text-gray-400 leading-relaxed mb-8 flex-grow">
               {project.description}
             </p>
 
@@ -193,7 +210,7 @@ const projects = [
         
         <button 
           data-close-modal={`modal-${index}`} 
-          class="absolute top-6 right-6 text-gray-500 hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-2 transition-all"
+          class="absolute top-6 right-6 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-2 transition-all"
           aria-label="Close modal"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +219,7 @@ const projects = [
         </button>
         
         <div class="flex flex-col gap-2 pr-8">
-          <span class="font-mono text-[14px] text-gray-500 uppercase tracking-widest" data-localization="projects.modal.label">Project Details</span>
+          <span class="font-mono text-[14px] text-gray-400 uppercase tracking-widest" data-localization="projects.modal.label">Project Details</span>
           <h3 class="text-2xl md:text-3xl font-sans text-gray-100 font-medium tracking-tight" data-localization={`projects.${index}.title`}>
             {project.title}
           </h3>

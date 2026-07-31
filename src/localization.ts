@@ -4,7 +4,7 @@ export type Lang = "en" | "es";
 
 export const translations: Record<Lang, Record<string, string | string[]>> = {
   en: {
-    "page.title": "Jairo Garcia Antolin // Software & AI Developer",
+    "page.title": "Jairo Garcia Antolin — Software & AI Developer",
     "nav.home": "Home",
     "nav.about": "About",
     "nav.tech": "Tech",
