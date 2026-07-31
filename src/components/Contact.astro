@@ -262,7 +262,11 @@ const personalInfo = {
 </section>
 
 <script>
-  import { t, getLang } from "../localization";
+  // Helper: lazily import t() and getLang() only when needed (form submission)
+  async function getLocalization() {
+    const mod = await import("../localization");
+    return { t: mod.t, getLang: mod.getLang };
+  }
 
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contact-form") as HTMLFormElement;
@@ -278,6 +282,9 @@ const personalInfo = {
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // Lazy-load localization only when the user submits the form
+      const { t, getLang } = await getLocalization();
 
       // Validate email format before submission
       if (!emailRegex.test(emailInput.value.trim())) {

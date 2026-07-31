@@ -256,94 +256,110 @@ const navLinks = [
 
     <!-- Localization: apply saved language and bind toggle buttons -->
     <script>
-      import { translations, getLang, setLang } from "../localization";
-      import type { Lang } from "../localization";
-
-      function applyTranslations(): void {
-        const lang = getLang();
-
-        document.documentElement.lang = lang;
-
-        const title = translations[lang]?.["page.title"];
-        if (title && typeof title === "string") document.title = title;
-
-        // Update text-only elements
-        document
-          .querySelectorAll<HTMLElement>("[data-localization]")
-          .forEach((el) => {
-            const key = el.getAttribute("data-localization");
-            if (!key) return;
-            const val = translations[lang]?.[key] ?? translations.en[key];
-            if (val && typeof val === "string" && el.textContent !== val) {
-              el.textContent = val;
-            }
-          });
-
-        // Update HTML-content elements (styled spans, etc.)
-        document
-          .querySelectorAll<HTMLElement>("[data-localization-html]")
-          .forEach((el) => {
-            const key = el.getAttribute("data-localization-html");
-            if (!key) return;
-            const val = translations[lang]?.[key] ?? translations.en[key];
-            if (val && typeof val === "string" && el.innerHTML !== val) {
-              el.innerHTML = val;
-            }
-          });
-
-        // Update typewriter word arrays
-        document
-          .querySelectorAll<HTMLElement>("[data-localization-words]")
-          .forEach((el) => {
-            const key = el.getAttribute("data-localization-words");
-            if (!key) return;
-            const val = translations[lang]?.[key] ?? translations.en[key];
-            if (val && Array.isArray(val)) {
-              el.setAttribute("data-words", JSON.stringify(val));
-            }
-          });
-
-        // Toggle button active states
-        document.querySelectorAll<HTMLElement>(".lang-en").forEach((el) => {
-          el.classList.toggle("text-white", lang === "en");
-          el.classList.toggle("text-gray-400", lang !== "en");
-        });
-        document.querySelectorAll<HTMLElement>(".lang-es").forEach((el) => {
-          el.classList.toggle("text-white", lang === "es");
-          el.classList.toggle("text-gray-400", lang !== "es");
-        });
-
-        // Notify dynamic components (Typewriter)
-        document.dispatchEvent(
-          new CustomEvent("lang-change", { detail: { lang } }),
-        );
+      // Inline getLang() to avoid importing the 23KB localization module on initial load.
+      // This eliminates the JS waterfall: Layout.astro.js → localization.js
+      function getStoredLang(): "en" | "es" {
+        let saved: string | null = null;
+        try { saved = localStorage.getItem("lang"); } catch(e) { /* ignore */ }
+        if (saved === "en" || saved === "es") return saved;
+        try {
+          const bl = navigator.language || "";
+          if (bl.toLowerCase().startsWith("es")) return "es";
+        } catch(e) { /* ignore */ }
+        return "en";
       }
 
-      function setLangEn(): void {
-        setLang("en");
-        applyTranslations();
-      }
+      // Lazily load the full localization module and apply translations
+      async function loadAndApply() {
+        const { translations, getLang, setLang } = await import("../localization");
 
-      function setLangEs(): void {
-        setLang("es");
+        function applyTranslations(): void {
+          const lang = getLang();
+          document.documentElement.lang = lang;
+
+          const title = translations[lang]?.["page.title"];
+          if (title && typeof title === "string") document.title = title;
+
+          document
+            .querySelectorAll<HTMLElement>("[data-localization]")
+            .forEach((el) => {
+              const key = el.getAttribute("data-localization");
+              if (!key) return;
+              const val = translations[lang]?.[key] ?? translations.en[key];
+              if (val && typeof val === "string" && el.textContent !== val) {
+                el.textContent = val;
+              }
+            });
+
+          document
+            .querySelectorAll<HTMLElement>("[data-localization-html]")
+            .forEach((el) => {
+              const key = el.getAttribute("data-localization-html");
+              if (!key) return;
+              const val = translations[lang]?.[key] ?? translations.en[key];
+              if (val && typeof val === "string" && el.innerHTML !== val) {
+                el.innerHTML = val;
+              }
+            });
+
+          document
+            .querySelectorAll<HTMLElement>("[data-localization-words]")
+            .forEach((el) => {
+              const key = el.getAttribute("data-localization-words");
+              if (!key) return;
+              const val = translations[lang]?.[key] ?? translations.en[key];
+              if (val && Array.isArray(val)) {
+                el.setAttribute("data-words", JSON.stringify(val));
+              }
+            });
+
+          document.querySelectorAll<HTMLElement>(".lang-en").forEach((el) => {
+            el.classList.toggle("text-white", lang === "en");
+            el.classList.toggle("text-gray-400", lang !== "en");
+          });
+          document.querySelectorAll<HTMLElement>(".lang-es").forEach((el) => {
+            el.classList.toggle("text-white", lang === "es");
+            el.classList.toggle("text-gray-400", lang !== "es");
+          });
+
+          document.dispatchEvent(
+            new CustomEvent("lang-change", { detail: { lang } }),
+          );
+        }
+
+        // Apply immediately after loading
         applyTranslations();
+
+        // Bind toggle buttons with the now-loaded module
+        document
+          .querySelectorAll(".lang-en")
+          .forEach((el) => el.addEventListener("click", () => {
+            setLang("en");
+            applyTranslations();
+          }));
+        document
+          .querySelectorAll(".lang-es")
+          .forEach((el) => el.addEventListener("click", () => {
+            setLang("es");
+            applyTranslations();
+          }));
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Only apply translations on initial load if the user's saved
-        // language is NOT English. The HTML is already server-rendered in
-        // English, so calling applyTranslations() for "en" would just
-        // needlessly walk the DOM and delay the first paint.
-        const savedLang = getLang();
-        if (savedLang !== "en") {
-          applyTranslations();
+        const lang = getStoredLang();
+        if (lang !== "en") {
+          // Spanish user: load localization immediately to translate the page
+          loadAndApply();
+        } else {
+          // English user: defer loading until a language toggle is clicked
+          const bindLazy = (selector: string) => {
+            document.querySelectorAll(selector).forEach((el) => {
+              el.addEventListener("click", () => loadAndApply(), { once: true });
+            });
+          };
+          bindLazy(".lang-en");
+          bindLazy(".lang-es");
         }
-        document
-          .querySelectorAll(".lang-en")
-          .forEach((el) => el.addEventListener("click", setLangEn));
-        document
-          .querySelectorAll(".lang-es")
-          .forEach((el) => el.addEventListener("click", setLangEs));
       });
     </script>
   </body>
