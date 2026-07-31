@@ -293,7 +293,9 @@ const navLinks = [
             const key = el.getAttribute("data-localization");
             if (!key) return;
             const val = translations[lang]?.[key] ?? translations.en[key];
-            if (val && typeof val === "string") el.textContent = val;
+            if (val && typeof val === "string" && el.textContent !== val) {
+              el.textContent = val;
+            }
           });
 
         // Update HTML-content elements (styled spans, etc.)
@@ -303,7 +305,9 @@ const navLinks = [
             const key = el.getAttribute("data-localization-html");
             if (!key) return;
             const val = translations[lang]?.[key] ?? translations.en[key];
-            if (val && typeof val === "string") el.innerHTML = val;
+            if (val && typeof val === "string" && el.innerHTML !== val) {
+              el.innerHTML = val;
+            }
           });
 
         // Update typewriter word arrays
